@@ -13,7 +13,7 @@
     "bundle": "browserify client/index.js -t babelify -o server/public/main.js",
     "watch:client": "watchify client/index.js -vd -o server/public/main.js -t babelify",
     "start": "node server/index.js",
-    "watch:server": "nodemon .",
+    "watch:server": "nodemon ./server/index.js",
     "watch": "run-p watch:client watch:server"
   },
   "repository": {

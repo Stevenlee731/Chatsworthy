@@ -1,4 +1,42 @@
 .app {
   position: relative;
-  width: 100vh;
+  height: 100vh;
+  width: 100vw;
+}
+
+.chatsworthy {
+  position: absolute;
+  bottom: 16px;
+  right: 16px;
+  width: 30px;
+  height: 30px;
+  padding: 0.75rem;
+  cursor: pointer;
+}
+
+.messages-viewer {
+  position: absolute !important;
+  right: 50px;
+  max-width: 20%;
+  bottom: 50px;
+  min-height: 300px;
+  max-height: 700px;
+}
+
+.messages-header {
+  min-height: 60px !important;
+}
+
+.messages-background {
+  min-height: 350px;
+  max-height: 1000px;
+  overflow-y: auto;
+}
+
+.messages-footer {
+  height: 100px !important;
+}
+
+.description {
+  padding-left: 0.1px !important;
 }

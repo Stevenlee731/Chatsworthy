@@ -1,7 +1,8 @@
 const React = require('react')
 const ReactDOM = require('react-dom')
 const store = require('./store')
-const MessagesBox = require('./components/MessagesBox')
+const MessagesButton = require('./components/MessagesButton')
+const MessagesViewer = require('./components/MessagesViewer')
 
 window.store = store
 
@@ -9,7 +10,9 @@ const App = props => {
   const { messages, isChatOpen } = props
   return (
     <div className='app'>
-      <MessagesBox messages={messages} isChatOpen={isChatOpen}/>
+      { isChatOpen || <MessagesButton messages={messages} isChatOpen={isChatOpen}/> }
+      { isChatOpen && <MessagesViewer isChatOpen={isChatOpen}/>
+    }
     </div>
   )
 }
