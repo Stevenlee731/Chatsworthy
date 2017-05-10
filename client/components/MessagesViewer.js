@@ -1,10 +1,65 @@
 const React = require('react')
 const store = require('../store')
-const { chatClosed, chatOpened } = require('../actions')
-const { Card, Form, TextArea, Button, Icon, Grid, Image } = require('semantic-ui-react')
+const { chatClosed, chatOpened, INPUT_CHANGED, sendMessage, MESSAGE_SENT } = require('../actions')
+const { Comment, Card, Form, TextArea, Button, Icon, Grid, Image } = require('semantic-ui-react')
+const moment = require('moment')
+const io = require('socket.io-client')
+const socket = io('/')
+
+const OrgMessages = props => {
+  return (
+    <Comment>
+      <Comment.Avatar as='a' src='https://react.semantic-ui.com/assets/images/avatar/large/patrick.png' />
+      <Comment.Content>
+        <Comment.Author>Stevie Feliciano</Comment.Author>
+        <Comment.Metadata>
+          <div>{moment().fromNow()}</div>
+          <div>
+            <Icon name='star' />
+            5 Faves
+          </div>
+        </Comment.Metadata>
+        <Comment.Text>
+          Hey guys, I hope this example comment is helping you read this documentation.
+        </Comment.Text>
+      </Comment.Content>
+    </Comment>
+  )
+}
+
+const UserMessages = props => {
+  return (
+    <Comment>
+      <Comment.Content>
+        <div style={{paddingLeft: '60px'}}>
+          <Comment.Metadata>
+            <div>{moment().fromNow()}</div>
+          </Comment.Metadata>
+          <Comment.Text className="client-message" style={{backgroundColor: '#00B1E1'}}>
+            Hey guys, I hope this example comment is helping you read this documentation.
+          </Comment.Text>
+        </div>
+      </Comment.Content>
+    </Comment>
+  )
+}
 
 const MessagesViewer = props => {
-  const { isChatOpen } = props
+  const { isChatOpen, messageInput } = props
+  console.log(props)
+  const handleChange = event => {
+    store.dispatch({
+      type: INPUT_CHANGED,
+      text: event.target.value
+    })
+  }
+  const handleSubmit = event => {
+    event.preventDefault()
+    console.log('submit')
+    store.dispatch({
+      type: MESSAGE_SENT
+    })
+  }
   const handleClick = () => {
     if (props.isChatOpen) {
       store.dispatch(chatClosed())
@@ -46,24 +101,20 @@ const MessagesViewer = props => {
         </Card.Header>
       </Card.Content>
       <Card.Content className='messages-background'>
-      <div>Sample</div>
-      <div>Sample</div>
-      <div>Sample</div>
-      <div>Sample</div>
+        <Comment.Group>
+          <OrgMessages/>
+          <UserMessages/>
+        </Comment.Group>
       </Card.Content>
       <Card.Content className='messages-footer' extra>
-        <Grid>
-          <Grid.Column width={13}>
-            <Form>
-              <TextArea placeholder='Talk to us!' autoHeight />
-            </Form>
-          </Grid.Column>
-          <Grid.Column width={3}>
-            <Button icon>
-              <Icon name='send outline' />
-            </Button>
-          </Grid.Column>
-        </Grid>
+        <Form onSubmit={ handleSubmit }>
+          <TextArea value={ messageInput.text } onChange={ handleChange } placeholder='Talk to us!' autoHeight style={{maxHeight: '41px'}} />
+            <div>
+              <Button type='submit' icon floated='right'>
+                <Icon name='send outline' />
+              </Button>
+            </div>
+        </Form>
       </Card.Content>
     </Card>
   )
