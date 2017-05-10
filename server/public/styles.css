@@ -17,14 +17,15 @@
 .messages-viewer {
   position: absolute !important;
   right: 50px;
-  max-width: 20%;
+  min-width: 400px;
+  max-width: 600px;
   bottom: 50px;
-  min-height: 300px;
+  min-height: 200px;
   max-height: 700px;
 }
 
 .messages-header {
-  min-height: 60px !important;
+  min-height: 60px;
 }
 
 .messages-background {
@@ -34,7 +35,7 @@
 }
 
 .messages-footer {
-  height: 100px !important;
+  height: 70px;
 }
 
 .description {

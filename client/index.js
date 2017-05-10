@@ -20,7 +20,6 @@ const App = props => {
 const render = () => {
   const state = store.getState()
   const $app = document.querySelector('#app')
-  console.log('state', state)
   ReactDOM.render(<App {...state} />, $app)
 }
 

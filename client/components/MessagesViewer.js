@@ -13,32 +13,34 @@ const MessagesViewer = props => {
       store.dispatch(chatOpened())
     }
   }
-  console.log('isChatOpen', isChatOpen)
   if (!isChatOpen) return null
   return (
     <Card className='messages-viewer'>
       <Card.Content>
         <Card.Header className="messages-header">
           <Grid>
-            <Grid.Column width={12}>
+            <Grid.Column width={11}>
               <Grid>
-                <Grid.Column width={6} className="avatar">
+                <Grid.Column width={4} className="avatar">
                   <div className="avatar-image">
-                    <Image shape='circular' centered src='https://react.semantic-ui.com/assets/images/avatar/large/patrick.png' />
+                    <Image shape='circular' centered src='https://react.semantic-ui.com/assets/images/avatar/large/patrick.png' fluid />
                   </div>
                 </Grid.Column>
-                <Grid.Column width={10} className="description">
+                <Grid.Column width={12} className="description">
                   <div className="avatar-name">Steven Lee</div>
-                  <div>offline</div>
+                  <span><Icon color='green' name='circle' />online</span>
                 </Grid.Column>
               </Grid>
             </Grid.Column>
-            <Grid.Column width={4}>
-              <span onClick={handleClick} className="back-button">
-                <Button icon>
+            <Grid.Column width={5}>
+              <Button.Group onClick={handleClick} icon floated='right'>
+                <Button>
+                  <Icon name='list layout' />
+                </Button>
+                <Button>
                   <Icon name='window close' />
                 </Button>
-              </span>
+              </Button.Group>
             </Grid.Column>
           </Grid>
         </Card.Header>
@@ -48,65 +50,15 @@ const MessagesViewer = props => {
       <div>Sample</div>
       <div>Sample</div>
       <div>Sample</div>
-      <div>Sample</div>
-      <div>Sample</div>
-      <div>Sample</div>
-      <div>Sample</div>
-      <div>Sample</div>
-      <div>Sample</div>
-      <div>Sample</div>
-      <div>Sample</div>
-      <div>Sample</div>
-      <div>Sample</div>
-      <div>Sample</div>
-      <div>Sample</div>
-      <div>Sample</div>
-      <div>Sample</div>
-      <div>Sample</div>
-      <div>Sample</div>
-      <div>Sample</div>
-      <div>Sample</div>
-      <div>Sample</div>
-      <div>Sample</div>
-      <div>Sample</div>
-      <div>Sample</div>
-      <div>Sample</div>
-      <div>Sample</div>
-      <div>Sample</div>
-      <div>Sample</div>
-      <div>Sample</div>
-      <div>Sample</div>
-      <div>Sample</div>
-      <div>Sample</div>
-      <div>Sample</div>
-      <div>Sample</div>
-      <div>Sample</div>
-      <div>Sample</div>
-      <div>Sample</div>
-      <div>Sample</div>
-      <div>Sample</div>
-      <div>Sample</div>
-      <div>Sample</div>
-      <div>Sample</div>
-      <div>Sample</div>
-      <div>Sample</div>
-      <div>Sample</div>
-      <div>Sample</div>
-      <div>Sample</div>
-      <div>Sample</div>
-      <div>Sample</div>
-      <div>Sample</div>
-      <div>Sample</div>
-      <div>Sample</div>
       </Card.Content>
       <Card.Content className='messages-footer' extra>
         <Grid>
-          <Grid.Column width={12}>
+          <Grid.Column width={13}>
             <Form>
               <TextArea placeholder='Talk to us!' autoHeight />
             </Form>
           </Grid.Column>
-          <Grid.Column width={4}>
+          <Grid.Column width={3}>
             <Button icon>
               <Icon name='send outline' />
             </Button>
