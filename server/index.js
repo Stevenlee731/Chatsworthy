@@ -8,7 +8,6 @@ const app = express()
 const server = http.createServer(app)
 const io = socketIO(server)
 const path = require('path')
-
 const twilio = require('twilio')
 
 const accountSid = process.env.TW_SID
@@ -25,9 +24,14 @@ io.on('connection', function(socket) {
     client.messages.create({
       body: text,
       to: process.env.STAFF_NUM,
-      from: process.env.TW_NUM
+      from: process.env.TW_NUM,
+      FromCountry: 'united states',
+      FromCity: 'Cerritos'
     })
     .then((message) => console.log(message.sid))
+  })
+  socket.emit('reply', text => {
+
   })
 })
 
