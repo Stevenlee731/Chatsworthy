@@ -1,50 +1,37 @@
 const React = require('react')
 const store = require('../store')
-const { chatClosed, chatOpened, INPUT_CHANGED, sendMessage, MESSAGE_SENT } = require('../actions')
+const { chatClosed, chatOpened, INPUT_CHANGED, sendMessage } = require('../actions')
 const { Comment, Card, Form, TextArea, Button, Icon, Grid, Image } = require('semantic-ui-react')
 const moment = require('moment')
 
-const OrgMessages = props => {
+const Message = props => {
   return (
-    <Comment>
-      <Comment.Avatar as='a' src='https://react.semantic-ui.com/assets/images/avatar/large/patrick.png' />
-      <Comment.Content>
-        <Comment.Author>Stevie Feliciano</Comment.Author>
-        <Comment.Metadata>
-          <div>{moment().fromNow()}</div>
-          <div>
-            <Icon name='star' />
-            5 Faves
-          </div>
-        </Comment.Metadata>
-        <Comment.Text>
-          Hey guys, I hope this example comment is helping you read this documentation.
-        </Comment.Text>
-      </Comment.Content>
-    </Comment>
-  )
-}
-
-const UserMessages = props => {
-  return (
-    <Comment>
       <Comment.Content>
         <div style={{paddingLeft: '60px'}}>
           <Comment.Metadata>
             <div>{moment().fromNow()}</div>
           </Comment.Metadata>
           <Comment.Text className="client-message" style={{backgroundColor: '#00B1E1'}}>
-            Hey guys, I hope this example comment is helping you read this documentation.
+          { props.text }
           </Comment.Text>
         </div>
       </Comment.Content>
+  )
+}
+
+const Messages = props => {
+  const { userMessages } = props
+  return (
+    <Comment>
+    { userMessages.map((message, i) => {
+      return <Message key={ i } text={ message } />
+    }) }
     </Comment>
   )
 }
 
 const MessagesViewer = props => {
-  const { isChatOpen, messageInput } = props
-  console.log(props)
+  const { isChatOpen, messageInput, userMessages } = props
   const handleChange = event => {
     store.dispatch({
       type: INPUT_CHANGED,
@@ -53,7 +40,6 @@ const MessagesViewer = props => {
   }
   const handleSubmit = event => {
     event.preventDefault()
-    console.log('submit')
     store.dispatch(sendMessage)
   }
   const handleClick = () => {
@@ -64,6 +50,7 @@ const MessagesViewer = props => {
       store.dispatch(chatOpened())
     }
   }
+
   if (!isChatOpen) return null
   return (
     <Card className='messages-viewer'>
@@ -98,8 +85,7 @@ const MessagesViewer = props => {
       </Card.Content>
       <Card.Content className='messages-background'>
         <Comment.Group>
-          <OrgMessages/>
-          <UserMessages/>
+          <Messages messageInput={messageInput} userMessages={userMessages} isChatOpen={isChatOpen}/>
         </Comment.Group>
       </Card.Content>
       <Card.Content className='messages-footer' extra>
