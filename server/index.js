@@ -22,15 +22,14 @@ io.on('connection', function(socket) {
   socket.emit('welcome', { type: 'connected to socket' })
   socket.on('message', text => {
     console.log(text)
+    client.messages.create({
+      body: text,
+      to: process.env.STAFF_NUM,
+      from: process.env.TW_NUM
+    })
+    .then((message) => console.log(message.sid))
   })
 })
-
-client.messages.create({
-  body: 'Hello from Node',
-  to: process.env.STAFF_NUM,
-  from: process.env.TW_NUM
-})
-.then((message) => console.log(message.sid))
 
 const port = process.env.PORT || 3000
 
