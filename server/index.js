@@ -15,8 +15,9 @@ app.use(express.static(path.join(__dirname, 'public')))
 
 io.on('connection', function(socket) {
   console.log('a user connected')
-  socket.emit('welcome', {
-    type: 'connected to socket'
+  socket.emit('welcome', { type: 'connected to socket' })
+  socket.on('message', text => {
+    console.log(text)
   })
   // socket.on('message', () => {
   //   //forward to twilio

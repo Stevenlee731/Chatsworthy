@@ -3,13 +3,6 @@ const ReactDOM = require('react-dom')
 const store = require('./store')
 const MessagesButton = require('./components/MessagesButton')
 const MessagesViewer = require('./components/MessagesViewer')
-const io = require('socket.io-client')
-
-const socket = io('/')
-
-socket.on('welcome', (payload) => {
-  console.log(payload)
-})
 
 window.store = store
 

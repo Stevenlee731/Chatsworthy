@@ -3,8 +3,6 @@ const store = require('../store')
 const { chatClosed, chatOpened, INPUT_CHANGED, sendMessage, MESSAGE_SENT } = require('../actions')
 const { Comment, Card, Form, TextArea, Button, Icon, Grid, Image } = require('semantic-ui-react')
 const moment = require('moment')
-const io = require('socket.io-client')
-const socket = io('/')
 
 const OrgMessages = props => {
   return (
@@ -56,9 +54,7 @@ const MessagesViewer = props => {
   const handleSubmit = event => {
     event.preventDefault()
     console.log('submit')
-    store.dispatch({
-      type: MESSAGE_SENT
-    })
+    store.dispatch(sendMessage)
   }
   const handleClick = () => {
     if (props.isChatOpen) {
@@ -90,7 +86,7 @@ const MessagesViewer = props => {
             <Grid.Column width={5}>
               <Button.Group onClick={handleClick} icon floated='right'>
                 <Button>
-                  <Icon name='list layout' />
+                  <Icon name='window close' />
                 </Button>
                 <Button>
                   <Icon name='window close' />
@@ -108,11 +104,9 @@ const MessagesViewer = props => {
       </Card.Content>
       <Card.Content className='messages-footer' extra>
         <Form onSubmit={ handleSubmit }>
-          <TextArea value={ messageInput.text } onChange={ handleChange } placeholder='Talk to us!' autoHeight style={{maxHeight: '41px'}} />
-            <div>
-              <Button type='submit' icon floated='right'>
-                <Icon name='send outline' />
-              </Button>
+          <TextArea value={ messageInput } onChange={ handleChange } placeholder='Talk to us!' autoHeight style={{maxHeight: '41px'}} />
+            <div style={{marginTop: '5px'}}>
+              <Button color='teal' type='submit' content='Send' icon='send outline' labelPosition='right' floated='right'/>
             </div>
         </Form>
       </Card.Content>

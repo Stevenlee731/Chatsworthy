@@ -17,10 +17,9 @@ const INPUT_CHANGED = 'INPUT_CHANGED'
 const inputChanged = event => ({ type: INPUT_CHANGED, text: event.target.value })
 
 const sendMessage = (dispatch, getState, socket) => {
-  const state = getState()
-  const text = state.messageInput.text
-  // socket.emit('User Message', { text: text })
-  dispatch(messageSent('test'))
+  const text = getState().messageInput
+  socket.emit('message', text)
+  dispatch(messageSent(text))
 }
 
 const Actions = {
@@ -35,7 +34,8 @@ const Actions = {
   MESSAGES_CLEARED,
   MESSAGE_RECEIVED,
   sendMessage,
-  messageSent
+  messageSent,
+  MESSAGE_SENT
 }
 
 module.exports = Actions

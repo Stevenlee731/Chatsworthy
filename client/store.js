@@ -3,6 +3,8 @@ const thunk = require('redux-thunk').default
 const userMessages = require('./reducers/userMessages')
 const isChatOpen = require('./reducers/isChatOpen')
 const messageInput = require('./reducers/messageInput')
+const io = require('socket.io-client')
+const socket = io('/')
 
 const reducer = combineReducers({
   isChatOpen,
@@ -10,6 +12,9 @@ const reducer = combineReducers({
   messageInput
 })
 
-const store = createStore(reducer, applyMiddleware(thunk))
+const store = createStore(
+  reducer,
+  applyMiddleware(thunk.withExtraArgument(socket))
+)
 
 module.exports = store
