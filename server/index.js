@@ -8,11 +8,11 @@ const app = express()
 const server = http.createServer(app)
 const io = socketIO(server)
 const path = require('path')
-const twilio = require('twilio')
+const Twilio = require('twilio')
 
 const accountSid = process.env.TW_SID
 const authToken = process.env.TW_TOKEN
-let client = new twilio(accountSid, authToken)
+let client = new Twilio(accountSid, authToken)
 
 app.use(express.static(path.join(__dirname, 'public')))
 

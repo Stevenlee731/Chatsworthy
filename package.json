@@ -2,11 +2,11 @@
   "name": "Chatsworthy",
   "version": "1.0.0",
   "engines": {
-    "node": "6.9.4",
+    "node": "7.9.0",
     "npm": "4.2.0"
   },
   "description": "A web app that allows Users to chat with business owners",
-  "main": "index.js",
+  "main": "./server/index.js",
   "scripts": {
     "test": "npm run lint",
     "lint": "run-p lint:*",
@@ -18,7 +18,8 @@
     "watch:client": "watchify client/index.js -vd -o server/public/main.js -t babelify",
     "start": "node server/index.js",
     "watch:server": "nodemon ./server/index.js",
-    "watch": "run-p watch:client watch:server"
+    "watch": "run-p watch:client watch:server",
+    "heroku-postbuild": "npm run bundle"
   },
   "repository": {
     "type": "git",
