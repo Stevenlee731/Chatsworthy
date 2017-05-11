@@ -1,10 +1,47 @@
 const React = require('react')
 const store = require('../store')
-const { chatClosed, chatOpened } = require('../actions')
-const { Card, Form, TextArea, Button, Icon, Grid, Image } = require('semantic-ui-react')
+const { chatClosed, chatOpened, INPUT_CHANGED, sendMessage } = require('../actions')
+const { Comment, Card, Form, TextArea, Button, Icon, Grid, Image } = require('semantic-ui-react')
+const moment = require('moment')
+
+const Message = props => {
+  return (
+      <Comment.Content>
+        <div style={{paddingLeft: '60px'}}>
+          <Comment.Metadata>
+            <div>{moment().fromNow()}</div>
+          </Comment.Metadata>
+          <Comment.Text className="client-message" style={{backgroundColor: '#00B1E1'}}>
+          { props.text }
+          </Comment.Text>
+        </div>
+      </Comment.Content>
+  )
+}
+
+const Messages = props => {
+  const { userMessages } = props
+  return (
+    <Comment>
+    { userMessages.map((message, i) => {
+      return <Message key={ i } text={ message } />
+    }) }
+    </Comment>
+  )
+}
 
 const MessagesViewer = props => {
-  const { isChatOpen } = props
+  const { isChatOpen, messageInput, userMessages } = props
+  const handleChange = event => {
+    store.dispatch({
+      type: INPUT_CHANGED,
+      text: event.target.value
+    })
+  }
+  const handleSubmit = event => {
+    event.preventDefault()
+    store.dispatch(sendMessage)
+  }
   const handleClick = () => {
     if (props.isChatOpen) {
       store.dispatch(chatClosed())
@@ -13,6 +50,7 @@ const MessagesViewer = props => {
       store.dispatch(chatOpened())
     }
   }
+
   if (!isChatOpen) return null
   return (
     <Card className='messages-viewer'>
@@ -35,7 +73,7 @@ const MessagesViewer = props => {
             <Grid.Column width={5}>
               <Button.Group onClick={handleClick} icon floated='right'>
                 <Button>
-                  <Icon name='list layout' />
+                  <Icon name='window close' />
                 </Button>
                 <Button>
                   <Icon name='window close' />
@@ -46,24 +84,17 @@ const MessagesViewer = props => {
         </Card.Header>
       </Card.Content>
       <Card.Content className='messages-background'>
-      <div>Sample</div>
-      <div>Sample</div>
-      <div>Sample</div>
-      <div>Sample</div>
+        <Comment.Group>
+          <Messages messageInput={messageInput} userMessages={userMessages} isChatOpen={isChatOpen}/>
+        </Comment.Group>
       </Card.Content>
       <Card.Content className='messages-footer' extra>
-        <Grid>
-          <Grid.Column width={13}>
-            <Form>
-              <TextArea placeholder='Talk to us!' autoHeight />
-            </Form>
-          </Grid.Column>
-          <Grid.Column width={3}>
-            <Button icon>
-              <Icon name='send outline' />
-            </Button>
-          </Grid.Column>
-        </Grid>
+        <Form onSubmit={ handleSubmit }>
+          <TextArea value={ messageInput } onChange={ handleChange } placeholder='Talk to us!' autoHeight style={{maxHeight: '41px'}} />
+            <div style={{marginTop: '5px'}}>
+              <Button color='teal' type='submit' content='Send' icon='send outline' labelPosition='right' floated='right'/>
+            </div>
+        </Form>
       </Card.Content>
     </Card>
   )

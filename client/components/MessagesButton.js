@@ -1,7 +1,9 @@
 const React = require('react')
 const store = require('../store')
 const { chatClosed, chatOpened } = require('../actions')
-const { Icon } = require('semantic-ui-react')
+const FontIcon = require('material-ui/FontIcon').default
+const FloatingActionButton = require('material-ui/FloatingActionButton').default
+const blue500 = require('material-ui/styles/colors').default
 
 const MessagesButton = props => {
   const handleClick = () => {
@@ -13,9 +15,9 @@ const MessagesButton = props => {
     }
   }
   return (
-    <div className='chatsworthy' onClick={handleClick}>
-      <Icon bordered inverted color='teal' name='discussions' size='big' className='chatsworthy'/>
-    </div>
+    <FloatingActionButton className='chatsworthy' onClick={handleClick} >
+      <FontIcon className="material-icons" color={ blue500 }>chat_bubble</FontIcon>
+    </FloatingActionButton>
   )
 }
 module.exports = MessagesButton
