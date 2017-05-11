@@ -1,6 +1,6 @@
 const { MESSAGE_RECEIVED, MESSAGES_CLEARED, MESSAGE_SENT } = require('../actions')
 
-const messagesChat = (state = [], action) => {
+const userMessages = (state = [], action) => {
   switch (action.type) {
     case MESSAGE_RECEIVED:
       return state.concat(action.text)
@@ -13,4 +13,4 @@ const messagesChat = (state = [], action) => {
   }
 }
 
-module.exports = messagesChat
+module.exports = userMessages
