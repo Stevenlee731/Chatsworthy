@@ -14,7 +14,7 @@ const App = props => {
   return (
     <MuiThemeProvider>
       <div className='app'>
-        { isChatOpen || <MessagesButton messageInput={messageInput} userMessages={userMessages} isChatOpen={isChatOpen}/> }
+        { isChatOpen || <MessagesButton isChatOpen={isChatOpen}/> }
         { isChatOpen && <MessagesViewer messageInput={messageInput} userMessages={userMessages} isChatOpen={isChatOpen}/>
       }
       </div>
@@ -25,7 +25,6 @@ const App = props => {
 const render = () => {
   const state = store.getState()
   const $app = document.querySelector('#app')
-  console.log('state', state)
   ReactDOM.render(<App {...state} />, $app)
 }
 
