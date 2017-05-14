@@ -5,15 +5,23 @@ const CHAT_CLOSED = 'CHAT_CLOSED'
 const chatClosed = () => ({ type: CHAT_CLOSED })
 
 const MESSAGE_SENT = 'MESSAGE_SENT'
-const messageSent = payload => ({ type: MESSAGE_SENT, text: payload })
+const messageSent = message => ({
+  type: MESSAGE_SENT,
+  message
+})
 
 const INPUT_CHANGED = 'INPUT_CHANGED'
-const inputChanged = event => ({ type: INPUT_CHANGED, text: event.target.value })
+const inputChanged = event => ({
+  type: INPUT_CHANGED,
+  text: event.target.value,
+  conversation: 'scott'
+})
 
-const sendMessage = (dispatch, getState, socket) => {
-  const text = getState().messageInput
-  socket.emit('message', text)
-  dispatch(messageSent(text))
+const sendMessage = (dispatch, getState, {socket, appStorage}) => {
+  const { messageInput, userMessages } = getState()
+  socket.emit('message', messageInput)
+  dispatch(messageSent(messageInput))
+  appStorage.setItem('user', userMessages)
 }
 
 const Actions = {

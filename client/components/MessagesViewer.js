@@ -1,32 +1,56 @@
 const React = require('react')
-const store = require('../store')
-const { chatClosed, chatOpened, INPUT_CHANGED, sendMessage } = require('../actions')
-const { Comment, Card, Form, TextArea, Button, Icon, Grid, Image } = require('semantic-ui-react')
+const Card = require('material-ui/Card/Card').default
+const CardActions = require('material-ui/Card/CardActions').default
+const CardHeader = require('material-ui/Card/CardHeader').default
+const CardText = require('material-ui/Card/CardText').default
+const FlatButton = require('material-ui/FlatButton').default
+const TextField = require('material-ui/TextField').default
 const moment = require('moment')
+const { chatClosed, chatOpened, INPUT_CHANGED, sendMessage } = require('../actions')
+const store = require('../store')
+
+const Divider = require('material-ui/Divider/Divider').default
+
+const style = {
+  minWidth: '375px',
+  height: '100vh',
+  right: 0,
+  position: 'absolute',
+  borderRight: '1px solid #E0E0E0'
+}
+//
+// function User(id) {
+//   return {
+//     id: uniqueId(),
+//   }
+// }
+// const uniqueId = () => {
+//   return 'id-' + Math.random().toString(36).substr(2, 16)
+// }
 
 const Message = props => {
   return (
-      <Comment.Content>
+      <div style={{paddingTop: '5px'}}>
         <div style={{paddingLeft: '60px'}}>
-          <Comment.Metadata>
+          <div>
             <div>{moment().fromNow()}</div>
-          </Comment.Metadata>
-          <Comment.Text className="client-message" style={{backgroundColor: '#00B1E1'}}>
+          </div>
+          <div className="client-message" style={{backgroundColor: '#00B1E1'}}>
           { props.text }
-          </Comment.Text>
         </div>
-      </Comment.Content>
+        </div>
+      </div>
   )
 }
 
 const Messages = props => {
   const { userMessages } = props
   return (
-    <Comment>
+    <div>
     { userMessages.map((message, i) => {
       return <Message key={ i } text={ message } />
     }) }
-    </Comment>
+  </div>
   )
 }
 
@@ -40,6 +64,11 @@ const MessagesViewer = props => {
   }
   const handleSubmit = event => {
     event.preventDefault()
+    // const message = {
+    //   date: moment().fromNow(),
+    //   text: messageInput
+    // }
+    // console.log(message)
     store.dispatch(sendMessage)
   }
   const handleClick = () => {
@@ -53,50 +82,34 @@ const MessagesViewer = props => {
 
   if (!isChatOpen) return null
   return (
-    <Card className='messages-viewer'>
-      <Card.Content>
-        <Card.Header className="messages-header">
-          <Grid>
-            <Grid.Column width={11}>
-              <Grid>
-                <Grid.Column width={4} className="avatar">
-                  <div className="avatar-image">
-                    <Image shape='circular' centered src='https://react.semantic-ui.com/assets/images/avatar/large/patrick.png' fluid />
-                  </div>
-                </Grid.Column>
-                <Grid.Column width={12} className="description">
-                  <div className="avatar-name">Steven Lee</div>
-                  <span><Icon color='green' name='circle' />online</span>
-                </Grid.Column>
-              </Grid>
-            </Grid.Column>
-            <Grid.Column width={5}>
-              <Button.Group onClick={handleClick} icon floated='right'>
-                <Button>
-                  <Icon name='window close' />
-                </Button>
-                <Button>
-                  <Icon name='window close' />
-                </Button>
-              </Button.Group>
-            </Grid.Column>
-          </Grid>
-        </Card.Header>
-      </Card.Content>
-      <Card.Content className='messages-background'>
-        <Comment.Group>
-          <Messages messageInput={messageInput} userMessages={userMessages} isChatOpen={isChatOpen}/>
-        </Comment.Group>
-      </Card.Content>
-      <Card.Content className='messages-footer' extra>
-        <Form onSubmit={ handleSubmit }>
-          <TextArea value={ messageInput } onChange={ handleChange } placeholder='Talk to us!' autoHeight style={{maxHeight: '41px'}} />
-            <div style={{marginTop: '5px'}}>
-              <Button color='teal' type='submit' content='Send' icon='send outline' labelPosition='right' floated='right'/>
-            </div>
-        </Form>
-      </Card.Content>
-    </Card>
+      <Card style={style}>
+        <CardHeader
+          style={{
+            width: '100%',
+            minHeight: '60px',
+            borderBottom: '1px solid #E0E0E0',
+            borderTop: '1px solid #E0E0E0'
+          }}
+          title="Scott Pilgrim"
+          subtitle="Online"
+          closeIcon='true'
+          avatar="http://www.material-ui.com/images/ok-128.jpg"
+        />
+        <Divider />
+        <CardText style={{overflowY: 'auto', maxHeight: '65vh'}}>
+            <Messages messageInput={messageInput} userMessages={userMessages} isChatOpen={isChatOpen}/>
+        </CardText>
+        <CardActions style={{ borderTop: '1px solid #E0E0E0', borderBottom: '1px solid #E0E0E0', position: 'absolute', display: 'inline-block', bottom: '0', width: '100%', textAlign: 'right' }}>
+          <form onSubmit={ handleSubmit }>
+            <TextField value={ messageInput } onChange={ handleChange } style={{paddingLeft: '10px', paddingRight: '10px'}}
+              hintText="Talk to us!"
+              fullWidth={true}
+            />
+          <FlatButton onClick={handleClick} label="Close" />
+          <FlatButton type='submit' label="Send" />
+          </form>
+        </CardActions>
+      </Card>
   )
 }
 
