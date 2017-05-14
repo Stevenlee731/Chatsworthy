@@ -18,17 +18,14 @@ const style = {
   position: 'absolute',
   borderRight: '1px solid #E0E0E0'
 }
-//
-// function User(id) {
-//   return {
-//     id: uniqueId(),
-//   }
-// }
-// const uniqueId = () => {
-//   return 'id-' + Math.random().toString(36).substr(2, 16)
-// }
+
+const uniqueId = () => {
+  return 'id-' + Math.random().toString(36).substr(2, 16)
+}
 
 const Message = props => {
+  const { messageInput } = props
+  console.log('input', messageInput)
   return (
       <div style={{paddingTop: '5px'}}>
         <div style={{paddingLeft: '60px'}}>
@@ -36,7 +33,7 @@ const Message = props => {
             <div>{moment().fromNow()}</div>
           </div>
           <div className="client-message" style={{backgroundColor: '#00B1E1'}}>
-          { props.text }
+          'steve'
         </div>
         </div>
       </div>
@@ -64,11 +61,19 @@ const MessagesViewer = props => {
   }
   const handleSubmit = event => {
     event.preventDefault()
-    // const message = {
-    //   date: moment().fromNow(),
-    //   text: messageInput
-    // }
-    // console.log(message)
+
+    if (!localStorage.userID) {
+      localStorage.setItem('userID', uniqueId())
+      console.log('need to create userID')
+    }
+
+    const message = {
+      date: moment().fromNow(),
+      userID: localStorage.userID,
+      text: messageInput
+    }
+
+    console.log('submit', message)
     store.dispatch(sendMessage)
   }
   const handleClick = () => {
