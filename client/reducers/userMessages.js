@@ -12,7 +12,7 @@ const userMessages = (state = [], action) => {
     case MESSAGE_RECEIVED:
       return state.concat(action.text)
     case MESSAGE_SENT:
-      return state.concat({ text: action.message })
+      return state.concat(action.message)
     default:
       return state
   }

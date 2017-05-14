@@ -13,15 +13,24 @@ const messageSent = message => ({
 const INPUT_CHANGED = 'INPUT_CHANGED'
 const inputChanged = event => ({
   type: INPUT_CHANGED,
-  text: event.target.value,
-  conversation: 'scott'
+  text: event.target.value
 })
 
-const sendMessage = (dispatch, getState, {socket, appStorage}) => {
-  const { messageInput, userMessages } = getState()
-  socket.emit('message', messageInput)
-  dispatch(messageSent(messageInput))
-  appStorage.setItem('user', userMessages)
+// const sendMessage = (dispatch, getState, {socket, appStorage}) => {
+//   const { messageInput, userMessages } = getState()
+//   socket.emit('message', messageInput)
+//   dispatch(messageSent(messageInput))
+//   appStorage.setItem('user', userMessages)
+// }
+
+function sendMessage(message) {
+  return function(dispatch, getState, {socket, appStorage}) {
+    const { userMessages } = getState()
+    console.log('sendMessage', message)
+    socket.emit('message', JSON.stringify(message))
+    dispatch(messageSent(message))
+    appStorage.setItem('user', userMessages)
+  }
 }
 
 const Actions = {

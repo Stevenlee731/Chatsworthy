@@ -24,16 +24,15 @@ const uniqueId = () => {
 }
 
 const Message = props => {
-  const { messageInput } = props
-  console.log('input', messageInput)
+  console.log('message', props)
   return (
       <div style={{paddingTop: '5px'}}>
         <div style={{paddingLeft: '60px'}}>
           <div>
-            <div>{moment().fromNow()}</div>
+            <div>{ props.date }</div>
           </div>
           <div className="client-message" style={{backgroundColor: '#00B1E1'}}>
-          'steve'
+          { props.text }
         </div>
         </div>
       </div>
@@ -42,10 +41,11 @@ const Message = props => {
 
 const Messages = props => {
   const { userMessages } = props
+  console.log('Messages', props)
   return (
     <div>
     { userMessages.map((message, i) => {
-      return <Message key={ i } text={ message } />
+      return <Message key={ i } date={ message.date } text={ message.text } />
     }) }
   </div>
   )
@@ -64,17 +64,16 @@ const MessagesViewer = props => {
 
     if (!localStorage.userID) {
       localStorage.setItem('userID', uniqueId())
-      console.log('need to create userID')
     }
 
     const message = {
-      date: moment().fromNow(),
+      date: moment().format('MMMM Do YYYY, h:mm:ss a'),
       userID: localStorage.userID,
       text: messageInput
     }
 
     console.log('submit', message)
-    store.dispatch(sendMessage)
+    store.dispatch(sendMessage(message))
   }
   const handleClick = () => {
     if (props.isChatOpen) {
@@ -102,7 +101,7 @@ const MessagesViewer = props => {
         />
         <Divider />
         <CardText style={{overflowY: 'auto', maxHeight: '65vh'}}>
-            <Messages messageInput={messageInput} userMessages={userMessages} isChatOpen={isChatOpen}/>
+            <Messages userMessages={userMessages} />
         </CardText>
         <CardActions style={{ borderTop: '1px solid #E0E0E0', borderBottom: '1px solid #E0E0E0', position: 'absolute', display: 'inline-block', bottom: '0', width: '100%', textAlign: 'right' }}>
           <form onSubmit={ handleSubmit }>
