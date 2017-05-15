@@ -3,10 +3,10 @@ const Avatar = require('material-ui/Avatar').default
 const List = require('material-ui/List').default
 const ListItem = require('material-ui/List/ListItem.js').default
 const Subheader = require('material-ui/Subheader').default
-const CommunicationChatBubble = require('material-ui/svg-icons/communication/chat-bubble').default
 const MuiThemeProvider = require('material-ui/styles/MuiThemeProvider').default
 const Paper = require('material-ui/Paper/Paper').default
 const Divider = require('material-ui/Divider/Divider').default
+const CustomerList = require('./CustomerList')
 
 const style = {
   height: '100vh',
@@ -21,7 +21,6 @@ const avatarStyle = {
 }
 
 const MessageList = props => {
-  const { userMessages } = props
   return (
     <MuiThemeProvider>
       <Paper style={style} zDepth={3}>
@@ -36,12 +35,7 @@ const MessageList = props => {
         <Divider inset={true} />
         <List>
           <Subheader>Chats</Subheader>
-          <ListItem
-            style={avatarStyle}
-            primaryText="Brendan Lim"
-            leftAvatar={<Avatar src="http://www.material-ui.com/images/ok-128.jpg" />}
-            rightIcon={<CommunicationChatBubble />}
-            />
+          <CustomerList {...props} />
         </List>
       </Paper>
     </MuiThemeProvider>

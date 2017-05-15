@@ -24,7 +24,6 @@ const uniqueId = () => {
 }
 
 const Message = props => {
-  console.log('message', props)
   return (
       <div style={{paddingTop: '5px'}}>
         <div style={{paddingLeft: '60px'}}>
@@ -41,7 +40,6 @@ const Message = props => {
 
 const Messages = props => {
   const { userMessages } = props
-  console.log('Messages', props)
   return (
     <div>
     { userMessages.map((message, i) => {
@@ -71,8 +69,6 @@ const MessagesViewer = props => {
       userID: localStorage.userID,
       text: messageInput
     }
-
-    console.log('submit', message)
     store.dispatch(sendMessage(message))
   }
   const handleClick = () => {
