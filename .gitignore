@@ -3,3 +3,4 @@ main.js
 node_modules/
 *.log
 .env
+admin.js

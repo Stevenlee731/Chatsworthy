@@ -14,12 +14,14 @@
     "lint:css": "stylelint ./**/*.css",
     "lint:js": "eslint ./**/*.js",
     "precommit": "npm test",
-    "bundle": "browserify client/index.js -t babelify -o server/public/main.js",
+    "bundle:client": "browserify client/index.js -t babelify -o server/public/main.js",
+    "bundle:admin": "browserify admin/index.js -t babelify -o server/public/admin.js",
+    "watch:admin": "watchify admin/index.js -vd -o server/public/admin.js -t babelify",
     "watch:client": "watchify client/index.js -vd -o server/public/main.js -t babelify",
     "start": "node server/index.js",
     "watch:server": "nodemon ./server/index.js",
-    "watch": "run-p watch:client watch:server",
-    "heroku-postbuild": "npm run bundle"
+    "watch": "run-p watch:client watch:server watch:admin",
+    "heroku-postbuild": "npm run bundle:client bundle:admin"
   },
   "repository": {
     "type": "git",
@@ -53,6 +55,7 @@
     "body-parser": "^1.17.1",
     "dotenv": "^4.0.0",
     "express": "^4.15.2",
+    "express-session": "^1.15.2",
     "material-ui": "^0.18.0",
     "moment": "^2.18.1",
     "react": "^15.5.4",
@@ -60,8 +63,6 @@
     "react-tap-event-plugin": "^2.0.1",
     "redux": "^3.6.0",
     "redux-thunk": "^2.2.0",
-    "semantic-ui-react": "^0.68.3",
-    "socket.io": "^2.0.1",
-    "twilio": "^3.0.0"
+    "socket.io": "^2.0.1"
   }
 }

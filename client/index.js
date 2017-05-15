@@ -15,8 +15,7 @@ const App = props => {
     <MuiThemeProvider>
       <div className='app'>
         { isChatOpen || <MessagesButton isChatOpen={isChatOpen}/> }
-        { isChatOpen && <MessagesViewer messageInput={messageInput} userMessages={userMessages} isChatOpen={isChatOpen}/>
-      }
+        { isChatOpen && <MessagesViewer messageInput={messageInput} userMessages={userMessages} isChatOpen={isChatOpen}/> }
       </div>
     </MuiThemeProvider>
   )
