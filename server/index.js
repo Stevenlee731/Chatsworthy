@@ -23,7 +23,6 @@ app.use(session(
 
 io.on('connection', function(socket) {
   console.log('a user connected')
-  console.log('id', socket.id)
   socket.emit('hello', 'steve')
 
   socket.on('disconnect', () => {
@@ -33,7 +32,7 @@ io.on('connection', function(socket) {
   socket.on('message', data => {
     console.log(data)
     socket.broadcast.emit('message', {
-      username: socket.username,
+      username: data.userID,
       message: data
     })
   })
