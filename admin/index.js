@@ -24,6 +24,7 @@ const App = props => {
 
 const render = () => {
   const state = store.getState()
+  console.log('state', state)
   const $app = document.querySelector('#app')
   ReactDOM.render(<App {...state} />, $app)
 }
@@ -31,11 +32,19 @@ const render = () => {
 store.subscribe(render)
 render()
 
-socket.on('message', data => {
-  const message = JSON.parse(data.message)
+socket.on('join', () => {
+  console.log('staff connected to server')
+  socket.emit('sign on', {
+    staffID: 'id-123'
+  })
+})
+
+socket.on('from client', data => {
+  console.log('message', data)
+  const message = data
   const customerID = message.userID
   if (localStorage.getItem(customerID) === null) {
-    localStorage.setItem(customerID, JSON.parse(message))
+    localStorage.setItem(customerID, message)
   }
   store.dispatch(messageReceived(message))
 })

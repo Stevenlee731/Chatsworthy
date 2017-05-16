@@ -3,6 +3,7 @@ const thunk = require('redux-thunk').default
 const userMessages = require('./reducers/userMessages')
 const isChatOpen = require('./reducers/isChatOpen')
 const messageInput = require('./reducers/messageInput')
+const createID = require('./reducers/createID')
 const io = require('socket.io-client')
 const socket = io('/')
 const appStorage = localStorage
@@ -10,7 +11,8 @@ const appStorage = localStorage
 const reducer = combineReducers({
   isChatOpen,
   userMessages,
-  messageInput
+  messageInput,
+  createID
 })
 
 const store = createStore(

@@ -5,6 +5,9 @@ const MessagesButton = require('./components/MessagesButton')
 const MessagesViewer = require('./components/MessagesViewer')
 const MuiThemeProvider = require('material-ui/styles/MuiThemeProvider').default
 const injectTapEventPlugin = require('react-tap-event-plugin')
+const io = require('socket.io-client')
+const { createID } = require('./actions')
+const socket = io('/')
 injectTapEventPlugin()
 
 window.store = store
@@ -29,3 +32,19 @@ const render = () => {
 
 store.subscribe(render)
 render()
+
+socket.on('join', () => {
+  console.log('customer connected to server')
+  if (!localStorage.userID) {
+    store.dispatch(createID)
+  }
+  const customerID = localStorage.userID
+  socket.emit('sign on', {
+    customerID: customerID
+  })
+})
+
+socket.emit('from admin', 'string')
+socket.on('from client', data => {
+  console.log(data)
+})

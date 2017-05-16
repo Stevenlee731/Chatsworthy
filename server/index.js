@@ -13,23 +13,43 @@ const bodyParser = require('body-parser')
 app.use(express.static(path.join(__dirname, 'public')))
 app.use(bodyParser.json())
 
-io.on('connection', function(socket) {
-  console.log('a user connected')
-  socket.emit('hello', 'steve')
+const clients = []
 
+io.on('connection', function(socket) {
+  socket.emit('join')
+  console.log('user connected', socket.id)
   socket.on('disconnect', () => {
     console.log('user disconnected')
   })
 
   socket.on('message', data => {
-    socket.broadcast.emit('message', {
-      message: data
+    socket.join('steve', () => {
+      console.log(socket.rooms)
+      io.to('steve', 'hello')
     })
+    console.log('socketID', data.userID)
+    io.sockets.in(data).emit('from client', data)
+    socket.id = data.userID
+    let newID = socket.id
+    if (!clients.find(users =>
+      users === newID
+    )) {
+      clients.push(newID)
+    }
+    console.log('clients', clients)
+  })
+
+  socket.on('from admin', data => {
+    console.log('reply', data)
+    const newID = 'id-th429nk1kj'
+    socket.to(newID).emit('reply', 'I just met you')
   })
 })
 
-const port = process.env.PORT || 3000
+io.sockets.in('steve').emit('from client', 'what is going on, party people?')
+//
+// const port = process.env.PORT || 4000
 
-server.listen(port, function() {
-  console.log('listening on *:', port)
+server.listen(4000, function() {
+  console.log('listening on *:', 4000)
 })
