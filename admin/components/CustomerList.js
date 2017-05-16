@@ -12,14 +12,7 @@ const Customer = props => {
   return (
     <ListItem
       style={avatarStyle}
-      primaryText="Customer"
-      secondaryText={
-            <p>
-              <span style={{color: 'black'}}></span>
-              {props.text}
-            </p>
-          }
-          secondaryTextLines={2}
+      primaryText= { props.room }
       leftAvatar={<Avatar src="https://twibbon.com/content/images/system/default-image.jpg" />}
       rightIcon={<CommunicationChatBubble />}
       />
@@ -27,16 +20,26 @@ const Customer = props => {
 }
 
 const CustomerList = props => {
-  const {userMessages} = props
-  if (userMessages.length === 0) return null
+  const {userMessages, chatRooms} = props
+  console.log('CustomerList', userMessages)
+  console.log(userMessages.text)
+  if (chatRooms.length === 0) return null
 
   return (
     <div>
-    { userMessages.map((message, i) => {
-      return <Customer key={ i } date={ message.date } text={ message.text } />
+    { chatRooms.map((room, i) => {
+      return <Customer key={ i } room={ room } />
     }) }
   </div>
   )
+
+  // return (
+  //   <div>
+  //   { userMessages.map((message, i) => {
+  //     return <Customer key={ i } date={ message.date } text={ message.text } />
+  //   }) }
+  // </div>
+  // )
 }
 
 module.exports = CustomerList

@@ -54,3 +54,7 @@ socket.emit('from admin', 'string')
 socket.on('from client', data => {
   console.log(data)
 })
+
+socket.on('message', payload => {
+  console.log(payload)
+})

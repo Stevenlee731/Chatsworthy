@@ -5,7 +5,7 @@ const ChatBox = require('./components/ChatBox')
 const MuiTheme = require('./MuiTheme')
 const io = require('socket.io-client')
 const socket = io('/')
-const { messageReceived } = require('./actions')
+const { messageReceived, ADDED_ROOM } = require('./actions')
 const injectTapEventPlugin = require('react-tap-event-plugin')
 injectTapEventPlugin()
 
@@ -39,12 +39,29 @@ socket.on('join', () => {
   })
 })
 
-socket.on('from client', data => {
-  console.log('message', data)
-  const message = data
-  const customerID = message.userID
-  if (localStorage.getItem(customerID) === null) {
-    localStorage.setItem(customerID, message)
-  }
-  store.dispatch(messageReceived(message))
+// socket.on('from client', data => {
+//   console.log('message', data)
+//   const message = data
+//   const customerID = message.userID
+//   if (localStorage.getItem(customerID) === null) {
+//     localStorage.setItem(customerID, message)
+//   }
+//   store.dispatch(messageReceived(message))
+// })
+
+socket.on('rooms list', rooms => {
+  console.log('rooms', rooms)
+  store.dispatch({
+    type: ADDED_ROOM,
+    rooms
+  })
+  // socket.emit('join room', {
+  //   customerID: rooms[0]
+  // })
 })
+
+socket.on('message', payload => {
+  console.log(payload)
+})
+
+socket.emit('message', { roomID: 'id-3jrc5vr5vtp', text: 'occs' })
