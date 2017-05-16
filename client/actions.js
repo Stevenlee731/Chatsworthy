@@ -1,5 +1,4 @@
 const CREATE_ID = 'CREATE_ID'
-const createID = () => ({ type: CREATE_ID })
 
 const CHAT_OPENED = 'CHAT_OPENED'
 const chatOpened = () => ({ type: CHAT_OPENED })
@@ -29,7 +28,7 @@ function sendMessage(message) {
 }
 
 const Actions = {
-  createID,
+  CREATE_ID,
   inputChanged,
   INPUT_CHANGED,
   chatClosed,
