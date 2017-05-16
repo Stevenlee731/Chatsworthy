@@ -2,6 +2,11 @@ const React = require('react')
 const Avatar = require('material-ui/Avatar').default
 const ListItem = require('material-ui/List/ListItem.js').default
 const CommunicationChatBubble = require('material-ui/svg-icons/communication/chat-bubble').default
+const io = require('socket.io-client')
+const socket = io('/')
+const store = require('../store')
+const MessageView = require('./MessageView')
+const { joinRoom } = require('../actions')
 
 const avatarStyle = {
   paddingLeft: '5px',
@@ -9,8 +14,23 @@ const avatarStyle = {
 }
 
 const Customer = props => {
+  const handleClick = () => {
+    const currentRoom = props.room
+    console.log('clicked current room', currentRoom)
+    store.dispatch(joinRoom(currentRoom))
+
+    return (
+      <MessageView chatRoom={ props.room }/>
+    )
+    // const payload = {
+    //   customerID: props.room,
+    //   text: 'from admin'
+    // }
+    // socket.emit('message', payload)
+  }
   return (
     <ListItem
+      onClick={ handleClick }
       style={avatarStyle}
       primaryText= { props.room }
       leftAvatar={<Avatar src="https://twibbon.com/content/images/system/default-image.jpg" />}

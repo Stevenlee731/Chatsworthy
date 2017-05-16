@@ -36,9 +36,11 @@ io.on('connection', socket => {
   console.log('rooms', rooms)
   socket.on('join room', payload => {
     socket.join(payload.customerID)
+    console.log('joined!', payload.customerID)
   })
   socket.on('message', payload => {
-    io.to(payload.roomID).emit('message', payload)
+    io.to(payload.customerID).emit('message', payload)
+    console.log('message sent', payload.customerID)
   })
 })
 //

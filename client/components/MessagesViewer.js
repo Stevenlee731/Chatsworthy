@@ -19,10 +19,6 @@ const style = {
   borderRight: '1px solid #E0E0E0'
 }
 
-const uniqueId = () => {
-  return 'id-' + Math.random().toString(36).substr(2, 16)
-}
-
 const Message = props => {
   return (
       <div style={{paddingTop: '5px'}}>
@@ -59,14 +55,9 @@ const MessagesViewer = props => {
   }
   const handleSubmit = event => {
     event.preventDefault()
-
-    if (!localStorage.userID) {
-      localStorage.setItem('userID', uniqueId())
-    }
-
     const message = {
       date: moment().format('MMMM Do YYYY, h:mm:ss a'),
-      userID: localStorage.userID,
+      customerID: localStorage.userID,
       text: messageInput
     }
     store.dispatch(sendMessage(message))

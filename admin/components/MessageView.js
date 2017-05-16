@@ -14,7 +14,7 @@ const MessageView = props => {
     <MuiThemeProvider>
       <Paper style={style} >
         <div style={{paddingLeft: '50px', paddingRight: '50px'}}>
-
+          { console.log('created!')}
         </div>
         </Paper>
     </MuiThemeProvider>

@@ -55,13 +55,8 @@ socket.on('rooms list', rooms => {
     type: ADDED_ROOM,
     rooms
   })
-  // socket.emit('join room', {
-  //   customerID: rooms[0]
-  // })
 })
 
 socket.on('message', payload => {
   console.log(payload)
 })
-
-socket.emit('message', { roomID: 'id-3jrc5vr5vtp', text: 'occs' })
