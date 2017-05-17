@@ -18,11 +18,11 @@ const rooms = []
 io.on('connection', socket => {
   socket.emit('join')
   socket.on('sign on', data => {
-    console.log('data', data)
     if (data.customerID) {
       if (data.customerID && !rooms.includes(data.customerID)) {
         socket.join(data.customerID)
         rooms.push(data.customerID)
+        console.log('rooms', rooms)
       }
       else if (data.customerID) {
         socket.join(data.customerID)
@@ -33,16 +33,18 @@ io.on('connection', socket => {
       socket.emit('rooms list', rooms)
     }
   })
-  console.log('rooms', rooms)
   socket.on('join room', payload => {
-    socket.join(payload.customerID)
-    console.log('joined!', payload.customerID)
+    socket.join(payload.customerID, () => {
+      console.log(socket.rooms)
+    })
   })
   socket.on('message', payload => {
-    io.to(payload.customerID).emit('message', payload)
+    // socket.to(payload.customerID).emit('message', payload)
+    socket.broadcast.emit('message', payload)
     console.log('message sent', payload.customerID)
   })
 })
+
 //
 // io.on('connection', function(socket) {
 //   socket.emit('join')

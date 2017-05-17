@@ -48,11 +48,10 @@ socket.on('join', () => {
   socket.emit('sign on', {
     customerID: customerID
   })
-})
-
-socket.emit('from admin', 'string')
-socket.on('from client', data => {
-  console.log(data)
+  socket.emit('join room', {
+    customerID: customerID
+  })
+  console.log('join room')
 })
 
 socket.on('message', payload => {

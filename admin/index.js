@@ -39,15 +39,21 @@ socket.on('join', () => {
   })
 })
 
-// socket.on('from client', data => {
-//   console.log('message', data)
-//   const message = data
-//   const customerID = message.userID
-//   if (localStorage.getItem(customerID) === null) {
-//     localStorage.setItem(customerID, message)
-//   }
-//   store.dispatch(messageReceived(message))
-// })
+socket.on('message', payload => {
+  // store.dispatch(messageReceived(payload))
+  console.log(payload)
+  const oldChats = JSON.parse(localStorage.getItem(payload.customerID)) || []
+
+  const newChat = {
+    date: payload.date,
+    text: payload.text,
+    customerID: payload.customerID
+  }
+  oldChats.push(newChat)
+  store.dispatch(messageReceived(oldChats))
+  localStorage.setItem(payload.customerID, JSON.stringify(oldChats))
+  // store.dispatch(messageLogged)
+})
 
 socket.on('rooms list', rooms => {
   console.log('rooms', rooms)
@@ -55,8 +61,4 @@ socket.on('rooms list', rooms => {
     type: ADDED_ROOM,
     rooms
   })
-})
-
-socket.on('message', payload => {
-  console.log(payload)
 })

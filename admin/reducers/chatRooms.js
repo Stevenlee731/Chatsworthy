@@ -3,7 +3,10 @@ const { ADDED_ROOM } = require('../actions')
 const chatRooms = (state = [], action) => {
   switch (action.type) {
     case ADDED_ROOM:
-      return state.concat(action.rooms)
+      if (!state.includes(action.rooms)) {
+        return state.concat(action.rooms)
+      }
+      break
     default:
       return state
   }

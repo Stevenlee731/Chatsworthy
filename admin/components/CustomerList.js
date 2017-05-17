@@ -2,11 +2,9 @@ const React = require('react')
 const Avatar = require('material-ui/Avatar').default
 const ListItem = require('material-ui/List/ListItem.js').default
 const CommunicationChatBubble = require('material-ui/svg-icons/communication/chat-bubble').default
-const io = require('socket.io-client')
-const socket = io('/')
 const store = require('../store')
 const MessageView = require('./MessageView')
-const { joinRoom } = require('../actions')
+const { joinRoom, messageReceived } = require('../actions')
 
 const avatarStyle = {
   paddingLeft: '5px',
@@ -16,16 +14,12 @@ const avatarStyle = {
 const Customer = props => {
   const handleClick = () => {
     const currentRoom = props.room
+    const oldChats = JSON.parse(localStorage.getItem(currentRoom)) || []
     store.dispatch(joinRoom(currentRoom))
-
+    store.dispatch(messageReceived(oldChats))
     return (
       <MessageView chatRoom={ props.room }/>
     )
-    // const payload = {
-    //   customerID: props.room,
-    //   text: 'from admin'
-    // }
-    // socket.emit('message', payload)
   }
   return (
     <ListItem
@@ -50,14 +44,6 @@ const CustomerList = props => {
       }
     </div>
   )
-
-  // return (
-  //   <div>
-  //   { userMessages.map((message, i) => {
-  //     return <Customer key={ i } date={ message.date } text={ message.text } />
-  //   }) }
-  // </div>
-  // )
 }
 
 module.exports = CustomerList
