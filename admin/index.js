@@ -40,6 +40,7 @@ socket.on('join', () => {
 })
 
 socket.on('message', payload => {
+  console.log('from customer', payload)
   const oldChats = JSON.parse(localStorage.getItem(payload.customerID)) || []
 
   const newChat = {
@@ -48,7 +49,7 @@ socket.on('message', payload => {
     customerID: payload.customerID
   }
   oldChats.push(newChat)
-  store.dispatch(messageReceived(oldChats))
+  store.dispatch(messageReceived(payload))
   localStorage.setItem(payload.customerID, JSON.stringify(oldChats))
 })
 

@@ -21,7 +21,9 @@ function joinRoom(room) {
 const MESSAGE_RECEIVED = 'MESSAGE_RECEIVED'
 const messageReceived = payload => ({
   type: MESSAGE_RECEIVED,
-  payload
+  text: payload.text,
+  date: payload.date,
+  customerID: payload.customerID
 })
 
 const Actions = {
