@@ -40,8 +40,6 @@ socket.on('join', () => {
 })
 
 socket.on('message', payload => {
-  // store.dispatch(messageReceived(payload))
-  console.log(payload)
   const oldChats = JSON.parse(localStorage.getItem(payload.customerID)) || []
 
   const newChat = {
@@ -52,7 +50,6 @@ socket.on('message', payload => {
   oldChats.push(newChat)
   store.dispatch(messageReceived(oldChats))
   localStorage.setItem(payload.customerID, JSON.stringify(oldChats))
-  // store.dispatch(messageLogged)
 })
 
 socket.on('rooms list', rooms => {

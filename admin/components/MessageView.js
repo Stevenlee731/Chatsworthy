@@ -28,7 +28,6 @@ const Message = props => {
 
 const Messages = props => {
   const { userMessages } = props
-  console.log('message', userMessages)
   return (
     <Comment.Group style={{overflowY: 'auto', paddingLeft: '50px', paddingRight: '50px', paddingTop: '50px'}}>
       { userMessages.map((message, i) => {

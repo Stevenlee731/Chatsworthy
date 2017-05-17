@@ -1,11 +1,6 @@
 const ADDED_ROOM = 'ADDED_ROOM'
 const LEAVE_ROOM = 'LEAVE_ROOM'
 
-const MESSAGE_LOGGED = 'MESSAGE_LOGGED'
-const messageLogged = () => ({
-  type: MESSAGE_LOGGED
-})
-
 const roomJoined = room => ({
   type: JOIN_ROOM,
   text: room
@@ -35,8 +30,7 @@ const Actions = {
   JOIN_ROOM,
   ADDED_ROOM,
   messageReceived,
-  MESSAGE_RECEIVED,
-  messageLogged
+  MESSAGE_RECEIVED
 }
 
 module.exports = Actions

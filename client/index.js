@@ -29,7 +29,6 @@ const App = props => {
 
 const render = () => {
   const state = store.getState()
-  console.log(store.getState())
   const $app = document.querySelector('#app')
   ReactDOM.render(<App {...state} />, $app)
 }
@@ -38,22 +37,18 @@ store.subscribe(render)
 render()
 
 socket.on('join', () => {
-  console.log('customer connected to server')
   if (!localStorage.userID) {
     const customerID = uniqueId()
     localStorage.userID = customerID
   }
   const customerID = localStorage.userID
-  console.log(customerID)
   socket.emit('sign on', {
     customerID: customerID
   })
   socket.emit('join room', {
     customerID: customerID
   })
-  console.log('join room')
 })
 
 socket.on('message', payload => {
-  console.log(payload)
 })
