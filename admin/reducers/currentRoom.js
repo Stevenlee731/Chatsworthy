@@ -1,6 +1,6 @@
 const { JOIN_ROOM, LEAVE_ROOM } = require('../actions')
 
-const currentRoom = (state = '', action) => {
+const currentRoom = (state = 'main', action) => {
   switch (action.type) {
     case JOIN_ROOM:
       return action.text

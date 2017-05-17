@@ -16,7 +16,6 @@ const avatarStyle = {
 const Customer = props => {
   const handleClick = () => {
     const currentRoom = props.room
-    console.log('clicked current room', currentRoom)
     store.dispatch(joinRoom(currentRoom))
 
     return (
@@ -40,17 +39,16 @@ const Customer = props => {
 }
 
 const CustomerList = props => {
-  const {userMessages, chatRooms} = props
-  console.log('CustomerList', userMessages)
-  console.log(userMessages.text)
+  const {chatRooms} = props
   if (chatRooms.length === 0) return null
-
   return (
     <div>
-    { chatRooms.map((room, i) => {
-      return <Customer key={ i } room={ room } />
-    }) }
-  </div>
+      {
+        chatRooms.map((room, i) => {
+          return <Customer key={ i } room={ room } />
+        })
+      }
+    </div>
   )
 
   // return (

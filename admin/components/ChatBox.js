@@ -6,7 +6,7 @@ const ChatBox = props => {
   return (
     <div>
       <MessageList chatRooms={props.chatRooms} userMessages={props.userMessages}></MessageList>
-      <MessageView/>
+      <MessageView {...props}/>
     </div>
   )
 }
