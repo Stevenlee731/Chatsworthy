@@ -46,7 +46,9 @@ const Messages = props => {
     const message = {
       date: moment().format('MMMM Do YYYY, h:mm:ss a'),
       customerID: currentRoom,
-      text: messageInput
+      text: messageInput,
+      staffID: 'id-123',
+      profileImg: 'http://www.material-ui.com/images/ok-128.jpg'
     }
     store.dispatch(sendMessage(message))
   }
@@ -107,32 +109,3 @@ const MessageView = props => {
 }
 
 module.exports = MessageView
-
-// <Card style={style}>
-//   <Comment.Group style={{height: '100%', overflowY: 'auto', paddingLeft: '50px', paddingRight: '50px', paddingTop: '50px', paddingBottom: '50px'}}>
-//     { userMessages.map((message, i) => {
-//       return <Message key={ i } customerID={message.customerID} date={ message.date } text={ message.text } />
-//     })
-//     }
-//   </Comment.Group>
-//   <CardActions style={{ borderTop: '1px solid #E0E0E0', borderBottom: '1px solid #E0E0E0', position: 'absolute', display: 'inline-block', bottom: '0', width: '100%', textAlign: 'right' }}>
-//     <form onSubmit={ handleSubmit }>
-//       <TextField value={ messageInput } onChange={ handleChange } style={{paddingLeft: '10px', paddingRight: '10px'}}
-//         hintText="Talk to us!"
-//         fullWidth={true}
-//       />
-//     <FlatButton onClick={handleClick} label="Close" />
-//     <FlatButton type='submit' label="Send" />
-//     </form>
-//   </CardActions>
-// </Card>
-
-// <div style={{position: 'absolute', botton: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', width: '61%', height: '20vh'}}>
-//   <form style={{width: '100%'}}>
-//     <TextField
-//       style={{paddingRight: '20px', paddingLeft: '20px', position: 'relative'}}
-//       fullWidth={true}
-//      hintText="reply"
-//    />
-//   </form>
-// </div>

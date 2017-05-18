@@ -23,11 +23,19 @@ function sendMessage(message) {
     const { userMessages } = getState()
     socket.emit('message', message)
     dispatch(messageSent(message))
-    appStorage.setItem('user', userMessages)
+    appStorage.setItem('user', JSON.stringify(userMessages))
   }
 }
 
+const MESSAGE_RECEIVED = 'MESSAGE_RECEIVED'
+const messageReceived = payload => ({
+  type: MESSAGE_RECEIVED,
+  payload
+})
+
 const Actions = {
+  messageReceived,
+  MESSAGE_RECEIVED,
   CREATE_ID,
   inputChanged,
   INPUT_CHANGED,

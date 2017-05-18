@@ -7,12 +7,14 @@ const io = require('socket.io-client')
 const socket = io('/')
 const appStorage = localStorage
 const messageInput = require('./reducers/messageInput')
+const staffLogin = require('./reducers/staffLogin')
 
 const reducer = combineReducers({
   userMessages,
   chatRooms,
   currentRoom,
-  messageInput
+  messageInput,
+  staffLogin
 })
 
 const store = createStore(

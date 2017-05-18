@@ -12,6 +12,14 @@ const messageSent = message => ({
   message
 })
 
+const STAFF_LOGIN = 'STAFF_LOGIN'
+const staffLogged = staff => ({
+  type: STAFF_LOGIN,
+  name: staff.name,
+  staffID: staff.staffID,
+  profileImg: staff.profileImg
+})
+
 function sendMessage(message) {
   return function(dispatch, getState, {socket, appStorage}) {
     const { userMessages, currentRoom } = getState()
@@ -47,6 +55,8 @@ const messageReceived = payload => ({
 })
 
 const Actions = {
+  staffLogged,
+  STAFF_LOGIN,
   messageSent,
   MESSAGE_SENT,
   sendMessage,
