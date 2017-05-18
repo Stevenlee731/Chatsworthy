@@ -42,7 +42,7 @@ socket.on('join', () => {
 socket.on('message', payload => {
   console.log('from customer', payload)
   const oldChats = JSON.parse(localStorage.getItem(payload.customerID)) || []
-
+  console.log('oldChats', oldChats)
   const newChat = {
     date: payload.date,
     text: payload.text,
