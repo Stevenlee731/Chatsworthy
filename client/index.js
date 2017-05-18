@@ -60,10 +60,10 @@ socket.on('message', payload => {
     text: payload.text,
     customerID: payload.customerID,
     staffID: payload.staffID,
-    profileImg: payload.profileImg
+    profileImg: payload.profileImg,
+    name: payload.name
   }
 
-  console.log(newChat)
   oldChats.push(newChat)
   // store.dispatch(messageReceived(oldChats))
   localStorage.setItem(payload.customerID, JSON.stringify(oldChats))

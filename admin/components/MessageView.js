@@ -13,6 +13,7 @@ const { INPUT_CHANGED, sendMessage } = require('../actions')
 
 const style = {
   width: '100%',
+  height: '100vh',
   paddingLeft: 300
 }
 
@@ -34,7 +35,7 @@ const Message = props => {
 }
 
 const Messages = props => {
-  const { userMessages, currentRoom, messageInput } = props
+  const { userMessages, currentRoom, messageInput, staffLogin } = props
   const handleChange = event => {
     store.dispatch({
       type: INPUT_CHANGED,
@@ -47,52 +48,53 @@ const Messages = props => {
       date: moment().format('MMMM Do YYYY, h:mm:ss a'),
       customerID: currentRoom,
       text: messageInput,
-      staffID: 'id-123',
-      profileImg: 'http://www.material-ui.com/images/ok-128.jpg'
+      staffID: staffLogin.staffID,
+      profileImg: staffLogin.profileImg,
+      name: staffLogin.name
     }
     store.dispatch(sendMessage(message))
   }
   return (
-    <Card style={{width: '100%'}}>
-      <Comment.Group style={{height: '75vh', overflowY: 'auto', paddingLeft: '50px', paddingRight: '50px', paddingTop: '50px'}}>
+  <div style={{width: '100%', position: 'relative'}}>
+    <Card style={{width: '100%', height: '100vh'}}>
+      <Comment.Group style={{height: '86vh', overflowY: 'auto', paddingLeft: '50px', paddingTop: '50px', paddingBottom: '50px'}}>
         { userMessages.map((message, i) => {
           return <Message key={ i } customerID={message.customerID} date={ message.date } text={ message.text } />
         })
         }
       </Comment.Group>
-      <CardActions style={{ borderTop: '1px solid #E0E0E0', borderBottom: '1px solid #E0E0E0', position: 'relative', display: 'inline-block', bottom: '0', width: '100%', textAlign: 'right' }}>
-        <form onSubmit={ handleSubmit } style={{width: '100%'}}>
-          <TextField onChange={ handleChange } style={{paddingLeft: '10px', paddingRight: '10px'}}
-            hintText="Talk to us!"
-            fullWidth={true}
-          />
-        <FlatButton type='submit' label="Send" />
-        </form>
-      </CardActions>
     </Card>
+    <form onSubmit={ handleSubmit } style={{ backgroundColor: 'white', zIndex: '1', borderTop: '1px solid #E0E0E0', borderBottom: '1px solid #E0E0E0', position: 'absolute', bottom: 0, display: 'inline-block', width: '100%', textAlign: 'right' }}>
+      <TextField onChange={ handleChange } style={{paddingLeft: '30px', paddingRight: '30px'}}
+        hintText="Reply"
+        fullWidth={true}
+      />
+    <FlatButton style={{marginRight: '10%'}} type='submit' label="Send" />
+    </form>
+  </div>
   )
 }
 
 const SwitchView = props => {
-  const { currentRoom, userMessages, messageInput } = props
+  const { currentRoom, userMessages, messageInput, staffLogin } = props
   if (currentRoom === 'main') {
     return (
       <div style={{margin: 'auto', width: '300px', height: '100%', position: 'relative', paddingLeft: '50px', paddingRight: '50px', paddingTop: '50px'}}>
         <div style={{position: 'absolute', top: '50%', height: '160px', marginTop: '-80px'}}>
           <div style={{margin: 'auto', width: '100px'}}>
             <Avatar
-            src="http://www.material-ui.com/images/ok-128.jpg"
+            src={staffLogin.profileImg}
             size={100}
             />
           </div>
-          <h1>Welcome back!</h1>
+          <h1 style={{textAlign: 'center'}}>Welcome back {staffLogin.name}!</h1>
         </div>
       </div>
     )
   }
   return (
     <div style={{height: '100vh', width: '100%'}}>
-      <Messages style={{position: 'absolute'}} messageInput={ messageInput } userMessages={ userMessages } currentRoom={ currentRoom }/>
+      <Messages style={{position: 'absolute'}} staffLogin={staffLogin} messageInput={ messageInput } userMessages={ userMessages } currentRoom={ currentRoom }/>
     </div>
   )
 }
