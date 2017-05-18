@@ -6,6 +6,27 @@ const roomJoined = room => ({
   text: room
 })
 
+const MESSAGE_SENT = 'MESSAGE_SENT'
+const messageSent = message => ({
+  type: MESSAGE_SENT,
+  message
+})
+
+function sendMessage(message) {
+  return function(dispatch, getState, {socket, appStorage}) {
+    const { userMessages, currentRoom } = getState()
+    socket.emit('message', message)
+    dispatch(messageSent(message))
+    appStorage.setItem(currentRoom, userMessages)
+  }
+}
+
+const INPUT_CHANGED = 'INPUT_CHANGED'
+const inputChanged = event => ({
+  type: INPUT_CHANGED,
+  text: event.target.value
+})
+
 const JOIN_ROOM = 'JOIN_ROOM'
 function joinRoom(room) {
   return function(dispatch, getState, {socket, appStorage}) {
@@ -25,6 +46,11 @@ const messageReceived = payload => ({
 })
 
 const Actions = {
+  messageSent,
+  MESSAGE_SENT,
+  sendMessage,
+  inputChanged,
+  INPUT_CHANGED,
   joinRoom,
   LEAVE_ROOM,
   JOIN_ROOM,
