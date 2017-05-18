@@ -2,6 +2,9 @@ const React = require('react')
 const Avatar = require('material-ui/Avatar').default
 const ListItem = require('material-ui/List/ListItem.js').default
 const CommunicationChatBubble = require('material-ui/svg-icons/communication/chat-bubble').default
+const store = require('../store')
+const MessageView = require('./MessageView')
+const { joinRoom, messageReceived } = require('../actions')
 
 const avatarStyle = {
   paddingLeft: '5px',
@@ -9,17 +12,20 @@ const avatarStyle = {
 }
 
 const Customer = props => {
+  const handleClick = () => {
+    const currentRoom = props.room
+    const oldChats = JSON.parse(localStorage.getItem(currentRoom)) || []
+    store.dispatch(joinRoom(currentRoom))
+    store.dispatch(messageReceived(oldChats))
+    return (
+      <MessageView chatRoom={ props.room }/>
+    )
+  }
   return (
     <ListItem
+      onClick={ handleClick }
       style={avatarStyle}
-      primaryText="Customer"
-      secondaryText={
-            <p>
-              <span style={{color: 'black'}}></span>
-              {props.text}
-            </p>
-          }
-          secondaryTextLines={2}
+      primaryText= { props.room }
       leftAvatar={<Avatar src="https://twibbon.com/content/images/system/default-image.jpg" />}
       rightIcon={<CommunicationChatBubble />}
       />
@@ -27,15 +33,16 @@ const Customer = props => {
 }
 
 const CustomerList = props => {
-  const {userMessages} = props
-  if (userMessages.length === 0) return null
-
+  const {chatRooms} = props
+  if (chatRooms.length === 0) return null
   return (
     <div>
-    { userMessages.map((message, i) => {
-      return <Customer key={ i } date={ message.date } text={ message.text } />
-    }) }
-  </div>
+      {
+        chatRooms.map((room, i) => {
+          return <Customer key={ i } room={ room } />
+        })
+      }
+    </div>
   )
 }
 

@@ -1,9 +1,13 @@
-const { MESSAGE_RECEIVED } = require('../actions')
+const { MESSAGE_RECEIVED, MESSAGE_LOGGED } = require('../actions')
 
-const userMessages = (state = [], action) => {
+const initialState = []
+
+const userMessages = (state = initialState, action) => {
   switch (action.type) {
     case MESSAGE_RECEIVED:
-      return state.concat(action.payload)
+      return action.payload
+    case MESSAGE_LOGGED:
+      return []
     default:
       return state
   }

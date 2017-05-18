@@ -1,3 +1,5 @@
+const CREATE_ID = 'CREATE_ID'
+
 const CHAT_OPENED = 'CHAT_OPENED'
 const chatOpened = () => ({ type: CHAT_OPENED })
 
@@ -19,13 +21,14 @@ const inputChanged = event => ({
 function sendMessage(message) {
   return function(dispatch, getState, {socket, appStorage}) {
     const { userMessages } = getState()
-    socket.emit('message', JSON.stringify(message))
+    socket.emit('message', message)
     dispatch(messageSent(message))
     appStorage.setItem('user', userMessages)
   }
 }
 
 const Actions = {
+  CREATE_ID,
   inputChanged,
   INPUT_CHANGED,
   chatClosed,

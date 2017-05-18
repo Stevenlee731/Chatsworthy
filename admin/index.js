@@ -5,7 +5,7 @@ const ChatBox = require('./components/ChatBox')
 const MuiTheme = require('./MuiTheme')
 const io = require('socket.io-client')
 const socket = io('/')
-const { messageReceived } = require('./actions')
+const { messageReceived, ADDED_ROOM } = require('./actions')
 const injectTapEventPlugin = require('react-tap-event-plugin')
 injectTapEventPlugin()
 
@@ -24,6 +24,7 @@ const App = props => {
 
 const render = () => {
   const state = store.getState()
+  console.log('state', state)
   const $app = document.querySelector('#app')
   ReactDOM.render(<App {...state} />, $app)
 }
@@ -31,11 +32,30 @@ const render = () => {
 store.subscribe(render)
 render()
 
-socket.on('message', data => {
-  const message = JSON.parse(data.message)
-  const customerID = message.userID
-  if (localStorage.getItem(customerID) === null) {
-    localStorage.setItem(customerID, JSON.parse(message))
+socket.on('join', () => {
+  console.log('staff connected to server')
+  socket.emit('sign on', {
+    staffID: 'id-123'
+  })
+})
+
+socket.on('message', payload => {
+  const oldChats = JSON.parse(localStorage.getItem(payload.customerID)) || []
+
+  const newChat = {
+    date: payload.date,
+    text: payload.text,
+    customerID: payload.customerID
   }
-  store.dispatch(messageReceived(message))
+  oldChats.push(newChat)
+  store.dispatch(messageReceived(oldChats))
+  localStorage.setItem(payload.customerID, JSON.stringify(oldChats))
+})
+
+socket.on('rooms list', rooms => {
+  console.log('rooms', rooms)
+  store.dispatch({
+    type: ADDED_ROOM,
+    rooms
+  })
 })

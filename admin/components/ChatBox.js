@@ -5,8 +5,8 @@ const MessageView = require('./MessageView')
 const ChatBox = props => {
   return (
     <div>
-      <MessageList userMessages={props.userMessages}></MessageList>
-      <MessageView/>
+      <MessageList chatRooms={props.chatRooms} userMessages={props.userMessages}></MessageList>
+      <MessageView {...props}/>
     </div>
   )
 }
