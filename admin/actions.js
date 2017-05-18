@@ -16,8 +16,9 @@ function sendMessage(message) {
   return function(dispatch, getState, {socket, appStorage}) {
     const { userMessages, currentRoom } = getState()
     socket.emit('message', message)
-    dispatch(messageSent(message))
-    appStorage.setItem(currentRoom, userMessages)
+    console.log(message)
+    // dispatch(messageSent(message))
+    // appStorage.setItem(currentRoom, userMessages)
   }
 }
 

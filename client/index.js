@@ -51,4 +51,5 @@ socket.on('join', () => {
 })
 
 socket.on('message', payload => {
+  console.log('message from support', payload)
 })

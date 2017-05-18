@@ -72,7 +72,7 @@ const Messages = props => {
 }
 
 const SwitchView = props => {
-  const { currentRoom, userMessages } = props
+  const { currentRoom, userMessages, messageInput } = props
   if (currentRoom === 'main') {
     return (
       <div style={{margin: 'auto', width: '300px', height: '100%', position: 'relative', paddingLeft: '50px', paddingRight: '50px', paddingTop: '50px'}}>
@@ -90,12 +90,13 @@ const SwitchView = props => {
   }
   return (
     <div style={{height: '100vh', width: '100%'}}>
-      <Messages style={{position: 'absolute'}} userMessages={ userMessages } currentRoom={ currentRoom }/>
+      <Messages style={{position: 'absolute'}} messageInput={ messageInput } userMessages={ userMessages } currentRoom={ currentRoom }/>
     </div>
   )
 }
 
 const MessageView = props => {
+  console.log('messageview', props)
   return (
     <MuiThemeProvider>
       <Paper style={style} >

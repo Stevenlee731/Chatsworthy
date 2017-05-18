@@ -5,7 +5,7 @@ const initialState = []
 const userMessages = (state = initialState, action) => {
   switch (action.type) {
     case MESSAGE_SENT:
-      return [...state, action.payload]
+      return action.payload
     case MESSAGE_RECEIVED:
       return action.payload
     case MESSAGE_LOGGED:
