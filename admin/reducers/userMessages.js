@@ -3,10 +3,11 @@ const { MESSAGE_RECEIVED, MESSAGE_LOGGED } = require('../actions')
 const initialState = {}
 
 const userMessages = (state = initialState, action) => {
+  const currentUserMessages = state[action.customerID] || []
   switch (action.type) {
     case MESSAGE_RECEIVED:
       return Object.assign({}, state, {
-        [action.customerID]: [...state[action.customerID], {
+        [action.customerID]: [...currentUserMessages, {
           text: action.text,
           date: action.date,
           customerID: action.customerID
