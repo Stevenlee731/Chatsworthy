@@ -51,3 +51,20 @@
   text-align: center;
   color: white !important;
 }
+
+.staff-message {
+  padding: 10px;
+  border-top-left-radius: 15px;
+  border-bottom-right-radius: 15px;
+  border-top-right-radius: 15px;
+  text-align: center;
+  color: black !important;
+}
+
+.message-footer {
+  padding-top: 1px !important;
+}
+
+.message-content {
+  padding-bottom: 1px !important;
+}
