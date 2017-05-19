@@ -40,7 +40,6 @@ socket.on('join', () => {
 socket.on('client message', payload => {
   socket.emit('fetch chat', payload.customerID)
   socket.on('parsed chat', payload => {
-    console.log('parsed', payload)
     if (Array.isArray(payload)) {
       store.dispatch(messageReceived(payload))
     }

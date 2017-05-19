@@ -53,7 +53,6 @@ io.on('connection', socket => {
         const oldMessages = []
         const messages = oldMessages.concat(parsedValue)
         const newMessages = messages.concat(payload)
-        console.log('from server to client', newMessages)
         db.put(payload.customerID, JSON.stringify(newMessages), function (err) {
           if (err) return console.log('Ooops!', err)
         })
@@ -62,7 +61,6 @@ io.on('connection', socket => {
     socket.to(payload.customerID).emit('support message', payload)
   })
   socket.on('client message', payload => {
-    console.log('from server to admin', payload)
     db.get(payload.customerID, function (err, value) {
       if (err) {
         db.put(payload.customerID, JSON.stringify(payload), function (err) {
