@@ -54,6 +54,7 @@ socket.on('join', () => {
 socket.on('support message', payload => {
   socket.emit('fetch chat', payload.customerID)
   socket.on('parsed chat', payload => {
+    console.log('from server to client', payload)
     store.dispatch(messageReceived(payload))
   })
 })
