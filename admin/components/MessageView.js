@@ -107,7 +107,7 @@ const Messages = props => {
             return <ClientMessage key={ i } customerID={message.customerID} date={ message.date } text={ message.text } />
           }
         })
-        }
+      }
       </Comment.Group>
     </Card>
     <form onSubmit={ handleSubmit } style={{ backgroundColor: 'white', zIndex: '1', borderTop: '1px solid #E0E0E0', borderBottom: '1px solid #E0E0E0', position: 'absolute', bottom: 0, display: 'inline-block', width: '100%', padding: '10px', textAlign: 'right' }}>
