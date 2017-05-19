@@ -1,6 +1,6 @@
 const React = require('react')
 const store = require('../store')
-const { chatClosed, chatOpened } = require('../actions')
+const { chatClosed, chatOpened, messageReceived } = require('../actions')
 const FontIcon = require('material-ui/FontIcon').default
 const FloatingActionButton = require('material-ui/FloatingActionButton').default
 const blue500 = require('material-ui/styles/colors').default
@@ -10,13 +10,13 @@ const socket = io('/')
 const MessagesButton = props => {
   const handleClick = () => {
     if (props.isChatOpen) {
-      socket.emit('join room', {
-        customerID: localStorage.userID
-      })
-      console.log('join room')
       store.dispatch(chatClosed())
     }
     else {
+      socket.emit('fetch chat', localStorage.userID)
+      socket.on('parsed chat', payload => {
+        store.dispatch(messageReceived(payload))
+      })
       store.dispatch(chatOpened())
     }
   }

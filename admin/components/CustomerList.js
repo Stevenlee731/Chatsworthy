@@ -5,6 +5,8 @@ const CommunicationChatBubble = require('material-ui/svg-icons/communication/cha
 const store = require('../store')
 const MessageView = require('./MessageView')
 const { joinRoom, messageReceived } = require('../actions')
+const io = require('socket.io-client')
+const socket = io('/')
 
 const avatarStyle = {
   paddingLeft: '5px',
@@ -14,9 +16,11 @@ const avatarStyle = {
 const Customer = props => {
   const handleClick = () => {
     const currentRoom = props.room
-    const oldChats = JSON.parse(localStorage.getItem(currentRoom)) || []
     store.dispatch(joinRoom(currentRoom))
-    store.dispatch(messageReceived(oldChats))
+    socket.emit('fetch chat', currentRoom)
+    socket.on('parsed chat', payload => {
+      store.dispatch(messageReceived(payload))
+    })
     return (
       <MessageView chatRoom={ props.room }/>
     )

@@ -26,8 +26,6 @@ const iconButtonElement = (
 )
 
 const handleChange = (event, value) => {
-  console.log('index', value)
-  console.log(Staff[value])
   store.dispatch(staffLogged(Staff[value]))
 }
 
@@ -53,7 +51,6 @@ const avatarStyle = {
 
 const MessageList = props => {
   const { staffLogin } = props
-  console.log('staffLogin', staffLogin)
   return (
     <MuiThemeProvider>
       <Paper style={style} zDepth={3}>

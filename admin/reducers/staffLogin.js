@@ -1,4 +1,4 @@
-const { STAFF_LOGIN } = require('../actions')
+const { STAFF_LOGIN, RESET_LOGIN } = require('../actions')
 
 const initialState = {
   logged: false
@@ -11,6 +11,10 @@ const staffLogin = (state = initialState, action) => {
         staffID: action.staffID,
         profileImg: action.profileImg,
         logged: true
+      }
+    case RESET_LOGIN:
+      return {
+        logged: false
       }
     default:
       return state

@@ -1,6 +1,8 @@
 const dotenv = require('dotenv')
 dotenv.load()
 
+const level = require('level')
+const db = level('./mydb')
 const express = require('express')
 const http = require('http')
 const socketIO = require('socket.io')
@@ -19,28 +21,63 @@ io.on('connection', socket => {
   socket.emit('join')
   socket.on('sign on', data => {
     if (data.customerID) {
+      socket.join(data.customerID)
       if (data.customerID && !rooms.includes(data.customerID)) {
-        socket.join(data.customerID)
         rooms.push(data.customerID)
-        console.log('rooms', rooms)
-      }
-      else if (data.customerID) {
-        socket.join(data.customerID)
       }
     }
     else if (data.staffID) {
-      socket.join('staff')
       socket.emit('rooms list', rooms)
     }
   })
-  socket.on('join room', payload => {
-    socket.join(payload.customerID, () => {
-      console.log(socket.rooms)
+  socket.on('fetch chat', customerID => {
+    db.get(customerID, function (err, value) {
+      if (err) return console.log('Ooops!', err)
+      const parsedValue = JSON.parse(value)
+      socket.emit('parsed chat', parsedValue)
     })
   })
-  socket.on('message', payload => {
-    socket.broadcast.emit('message', payload)
-    console.log('message sent', payload.customerID)
+  socket.on('join room', payload => {
+    socket.join(payload.customerID, () => {
+    })
+  })
+  socket.on('support message', payload => {
+    db.get(payload.customerID, function (err, value) {
+      if (err) {
+        db.put(payload.customerID, JSON.stringify(payload), function (err) {
+          if (err) return console.log('Ooops!', err)
+        })
+      }
+      else {
+        const parsedValue = JSON.parse(value)
+        const oldMessages = []
+        const messages = oldMessages.concat(parsedValue)
+        const newMessages = messages.concat(payload)
+        db.put(payload.customerID, JSON.stringify(newMessages), function (err) {
+          if (err) return console.log('Ooops!', err)
+        })
+      }
+    })
+    socket.to(payload.customerID).emit('support message', payload)
+  })
+  socket.on('client message', payload => {
+    db.get(payload.customerID, function (err, value) {
+      if (err) {
+        db.put(payload.customerID, JSON.stringify(payload), function (err) {
+          if (err) return console.log('Ooops!', err)
+        })
+      }
+      else {
+        const parsedValue = JSON.parse(value)
+        const oldMessages = []
+        const messages = oldMessages.concat(parsedValue)
+        const newMessages = messages.concat(payload)
+        db.put(payload.customerID, JSON.stringify(newMessages), function (err) {
+          if (err) return console.log('Ooops!', err)
+        })
+      }
+    })
+    socket.broadcast.emit('client message', payload)
   })
 })
 
