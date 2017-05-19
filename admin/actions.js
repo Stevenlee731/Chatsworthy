@@ -33,11 +33,8 @@ const staffLogged = staff => ({
 
 function sendMessage(message) {
   return function(dispatch, getState, {socket, appStorage}) {
-    const { userMessages, currentRoom } = getState()
     socket.emit('support message', message)
-    console.log(message)
-    // dispatch(messageSent(message))
-    // appStorage.setItem(currentRoom, userMessages)
+    dispatch(messageSent(message))
   }
 }
 
