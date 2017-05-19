@@ -5,9 +5,12 @@ const Avatar = require('material-ui/Avatar').default
 const TextField = require('material-ui/TextField').default
 const { Comment } = require('semantic-ui-react')
 const Card = require('material-ui/Card/Card').default
-const FlatButton = require('material-ui/FlatButton').default
+const RaisedButton = require('material-ui/RaisedButton').default
 const moment = require('moment')
 const store = require('../store')
+const io = require('socket.io-client')
+const socket = io('/')
+const fileDownload = require('react-file-download')
 const { INPUT_CHANGED, sendMessage } = require('../actions')
 
 const style = {
@@ -52,6 +55,28 @@ const ClientMessage = props => {
 
 const Messages = props => {
   const { userMessages, currentRoom, messageInput, staffLogin } = props
+  const handleClick = () => {
+    socket.emit('fetch chat', currentRoom)
+    socket.on('parsed chat', payload => {
+      const parsed = payload.map(chat => {
+        if (chat.name) {
+          return {
+            date: chat.date,
+            text: chat.text,
+            name: chat.name
+          }
+        }
+        else {
+          return {
+            date: chat.date,
+            text: chat.text,
+            customer: 'client'
+          }
+        }
+      })
+      fileDownload(JSON.stringify(parsed), 'chatsworthy.csv')
+    })
+  }
   const handleChange = event => {
     store.dispatch({
       type: INPUT_CHANGED,
@@ -85,12 +110,13 @@ const Messages = props => {
         }
       </Comment.Group>
     </Card>
-    <form onSubmit={ handleSubmit } style={{ backgroundColor: 'white', zIndex: '1', borderTop: '1px solid #E0E0E0', borderBottom: '1px solid #E0E0E0', position: 'absolute', bottom: 0, display: 'inline-block', width: '100%', textAlign: 'right' }}>
-      <TextField onChange={ handleChange } style={{paddingLeft: '30px', paddingRight: '30px'}}
+    <form onSubmit={ handleSubmit } style={{ backgroundColor: 'white', zIndex: '1', borderTop: '1px solid #E0E0E0', borderBottom: '1px solid #E0E0E0', position: 'absolute', bottom: 0, display: 'inline-block', width: '100%', padding: '10px', textAlign: 'right' }}>
+      <TextField value={ messageInput } onChange={ handleChange } style={{paddingLeft: '30px', paddingRight: '30px'}}
         hintText="Reply"
         fullWidth={true}
       />
-    <FlatButton style={{marginRight: '10%'}} type='submit' label="Send" />
+    <RaisedButton primary={true} style={{marginRight: '5px'}} onClick={ handleClick } label="Chat Transcript" />
+    <RaisedButton primary={true} style={{marginRight: '10%'}} type='submit' label="Send" />
     </form>
   </div>
   )
@@ -121,7 +147,6 @@ const SwitchView = props => {
 }
 
 const MessageView = props => {
-  console.log('messageview', props)
   return (
     <MuiThemeProvider>
       <Paper style={style} >

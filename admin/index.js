@@ -24,7 +24,6 @@ const App = props => {
 
 const render = () => {
   const state = store.getState()
-  console.log('state', state)
   const $app = document.querySelector('#app')
   ReactDOM.render(<App {...state} />, $app)
 }
@@ -33,22 +32,19 @@ store.subscribe(render)
 render()
 
 socket.on('join', () => {
-  console.log('staff connected to server')
   socket.emit('sign on', {
     staffID: 'staff'
   })
 })
 
 socket.on('client message', payload => {
-  socket.emit('fetch chat', payload.customerID)
+  socket.emit('fetch chat', payload)
   socket.on('parsed chat', payload => {
-    console.log('parsed from leveldb', payload)
     store.dispatch(messageReceived(payload))
   })
 })
 
 socket.on('rooms list', rooms => {
-  console.log('rooms', rooms)
   store.dispatch({
     type: ADDED_ROOM,
     rooms

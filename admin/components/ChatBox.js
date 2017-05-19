@@ -28,8 +28,6 @@ const style = {
 }
 
 const handleChange = (event, value) => {
-  console.log('index', value)
-  console.log(Staff[value])
   store.dispatch(staffLogged(Staff[value]))
 }
 

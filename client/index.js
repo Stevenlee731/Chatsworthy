@@ -52,10 +52,8 @@ socket.on('join', () => {
 })
 
 socket.on('support message', payload => {
-  console.log('message from support', payload)
   socket.emit('fetch chat', payload.customerID)
   socket.on('parsed chat', payload => {
-    console.log('parsed from leveldb', payload)
     store.dispatch(messageReceived(payload))
   })
 })

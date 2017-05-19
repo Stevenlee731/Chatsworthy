@@ -41,17 +41,6 @@ const StaffMessage = props => {
         </Grid.Column>
       </Grid.Row>
     </Grid>
-      // <div style={{paddingTop: '10px'}}>
-      //   <div style={{paddingRight: '30px'}}>
-      //     <div>sdsdds</div>
-      //     <div>
-      //       <div style={{textAlign: 'right'}}>{ props.date }</div>
-      //     </div>
-      //     <div className="staff-message" style={{backgroundColor: '#e8e8e8'}}>
-      //     { props.text }
-      //   </div>
-      //   </div>
-      // </div>
   )
 }
 

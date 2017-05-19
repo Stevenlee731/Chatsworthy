@@ -1,9 +1,10 @@
 const React = require('react')
-const darkBaseTheme = require('material-ui/styles/baseThemes/darkBaseTheme').default
 const MuiThemeProvider = require('material-ui/styles/MuiThemeProvider').default
 const getMuiTheme = require('material-ui/styles/getMuiTheme').default
 const AppBar = require('material-ui/AppBar').default
 const colors = require('material-ui/styles/colors')
+const store = require('./store')
+const { RESET_LOGIN } = require('./actions')
 
 const muiTheme = getMuiTheme({
   appBar: {
@@ -13,9 +14,15 @@ const muiTheme = getMuiTheme({
   }
 })
 
+const handleClick = () => {
+  store.dispatch({
+    type: RESET_LOGIN
+  })
+}
+
 const Theme = () => (
   <MuiThemeProvider muiTheme={ muiTheme }>
-    <AppBar style={{position: 'fixed'}} title="Chatsworthy" />
+    <AppBar onClick={handleClick} style={{position: 'fixed'}} title="Chatsworthy" />
   </MuiThemeProvider>
 )
 

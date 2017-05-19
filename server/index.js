@@ -28,7 +28,6 @@ io.on('connection', socket => {
     }
     else if (data.staffID) {
       socket.emit('rooms list', rooms)
-      // fetch leveldb
     }
   })
   socket.on('fetch chat', customerID => {
@@ -40,13 +39,11 @@ io.on('connection', socket => {
   })
   socket.on('join room', payload => {
     socket.join(payload.customerID, () => {
-      console.log(socket.rooms)
     })
   })
   socket.on('support message', payload => {
     db.get(payload.customerID, function (err, value) {
       if (err) {
-        console.log('new id')
         db.put(payload.customerID, JSON.stringify(payload), function (err) {
           if (err) return console.log('Ooops!', err)
         })
@@ -56,19 +53,16 @@ io.on('connection', socket => {
         const oldMessages = []
         const messages = oldMessages.concat(parsedValue)
         const newMessages = messages.concat(payload)
-        console.log('support', newMessages)
         db.put(payload.customerID, JSON.stringify(newMessages), function (err) {
           if (err) return console.log('Ooops!', err)
         })
       }
     })
     socket.to(payload.customerID).emit('support message', payload)
-    console.log('message sent to support', payload.customerID)
   })
   socket.on('client message', payload => {
     db.get(payload.customerID, function (err, value) {
       if (err) {
-        console.log('new id')
         db.put(payload.customerID, JSON.stringify(payload), function (err) {
           if (err) return console.log('Ooops!', err)
         })
@@ -78,14 +72,12 @@ io.on('connection', socket => {
         const oldMessages = []
         const messages = oldMessages.concat(parsedValue)
         const newMessages = messages.concat(payload)
-        console.log('customer', newMessages)
         db.put(payload.customerID, JSON.stringify(newMessages), function (err) {
           if (err) return console.log('Ooops!', err)
         })
       }
     })
     socket.broadcast.emit('client message', payload)
-    console.log('message sent to client', payload.customerID)
   })
 })
 

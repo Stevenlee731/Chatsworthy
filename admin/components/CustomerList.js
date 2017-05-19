@@ -19,7 +19,6 @@ const Customer = props => {
     store.dispatch(joinRoom(currentRoom))
     socket.emit('fetch chat', currentRoom)
     socket.on('parsed chat', payload => {
-      console.log('parsed from leveldb', payload)
       store.dispatch(messageReceived(payload))
     })
     return (

@@ -1,5 +1,6 @@
 const ADDED_ROOM = 'ADDED_ROOM'
 const LEAVE_ROOM = 'LEAVE_ROOM'
+const RESET_LOGIN = 'RESET_LOGIN'
 const roomJoined = room => ({
   type: JOIN_ROOM,
   text: room
@@ -8,7 +9,6 @@ const roomJoined = room => ({
 const JOIN_ROOM = 'JOIN_ROOM'
 function joinRoom(room) {
   return function(dispatch, getState, {socket, appStorage}) {
-    console.log('this is the current room', room)
     dispatch(roomJoined(room))
     const { currentRoom } = getState()
     socket.emit('join room', {
@@ -51,6 +51,7 @@ const messageReceived = payload => ({
 })
 
 const Actions = {
+  RESET_LOGIN,
   staffLogged,
   STAFF_LOGIN,
   messageSent,

@@ -9,7 +9,7 @@
 }
 
 .chatsworthy {
-  position: absolute;
+  position: fixed;
   bottom: 25px;
   right: 35px;
   cursor: pointer;
