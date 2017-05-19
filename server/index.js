@@ -31,6 +31,13 @@ io.on('connection', socket => {
       // fetch leveldb
     }
   })
+  socket.on('fetch chat', customerID => {
+    db.get(customerID, function (err, value) {
+      if (err) return console.log('Ooops!', err)
+      const parsedValue = JSON.parse(value)
+      socket.emit('parsed chat', parsedValue)
+    })
+  })
   socket.on('join room', payload => {
     socket.join(payload.customerID, () => {
       console.log(socket.rooms)
