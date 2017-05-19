@@ -35,11 +35,11 @@ render()
 socket.on('join', () => {
   console.log('staff connected to server')
   socket.emit('sign on', {
-    staffID: 'id-123'
+    staffID: 'staff'
   })
 })
 
-socket.on('message', payload => {
+socket.on('client message', payload => {
   const oldChats = JSON.parse(localStorage.getItem(payload.customerID)) || []
 
   const newChat = {

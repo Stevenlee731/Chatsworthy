@@ -51,7 +51,7 @@ socket.on('join', () => {
   })
 })
 
-socket.on('message', payload => {
+socket.on('support message', payload => {
   console.log('message from support', payload)
   const oldChats = JSON.parse(localStorage.getItem(payload.customerID)) || []
 
