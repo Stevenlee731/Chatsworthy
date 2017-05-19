@@ -5,7 +5,6 @@ const Avatar = require('material-ui/Avatar').default
 const TextField = require('material-ui/TextField').default
 const { Comment } = require('semantic-ui-react')
 const Card = require('material-ui/Card/Card').default
-const CardActions = require('material-ui/Card/CardActions').default
 const FlatButton = require('material-ui/FlatButton').default
 const moment = require('moment')
 const store = require('../store')
@@ -17,7 +16,24 @@ const style = {
   paddingLeft: 300
 }
 
-const Message = props => {
+const StaffMessage = props => {
+  return (
+    <Comment>
+      <Comment.Avatar as='a' src={props.profileImg} />
+      <Comment.Content>
+        <Comment.Author>{ props.name } - Customer Support</Comment.Author>
+        <Comment.Metadata>
+          <div>{ props.date }</div>
+        </Comment.Metadata>
+        <Comment.Text>
+          <p>{ props.text }</p>
+        </Comment.Text>
+      </Comment.Content>
+    </Comment>
+  )
+}
+
+const ClientMessage = props => {
   return (
     <Comment>
       <Comment.Avatar as='a' src='https://twibbon.com/content/images/system/default-image.jpg' />
@@ -59,7 +75,12 @@ const Messages = props => {
     <Card style={{width: '100%', height: '100vh'}}>
       <Comment.Group style={{height: '86vh', overflowY: 'auto', paddingLeft: '50px', paddingTop: '50px', paddingBottom: '50px'}}>
         { userMessages.map((message, i) => {
-          return <Message key={ i } customerID={message.customerID} date={ message.date } text={ message.text } />
+          if (message.staffID) {
+            return <StaffMessage key={ i } profileImg={message.profileImg} staffID={message.staffID} name={message.name} customerID={message.customerID} date={ message.date } text={ message.text } />
+          }
+          else {
+            return <ClientMessage key={ i } customerID={message.customerID} date={ message.date } text={ message.text } />
+          }
         })
         }
       </Comment.Group>
