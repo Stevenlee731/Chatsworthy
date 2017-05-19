@@ -21,7 +21,7 @@
     "start": "node server/index.js",
     "watch:server": "nodemon ./server/index.js",
     "watch": "run-p watch:client watch:server watch:admin",
-    "heroku-postbuild": "npm run bundle:client bundle:admin"
+    "heroku-postbuild": "run-p bundle:client bundle:admin"
   },
   "repository": {
     "type": "git",

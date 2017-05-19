@@ -1,4 +1,4 @@
-const { ADDED_ROOM } = require('../actions')
+const { ADDED_ROOM, CLEARED_ROOM } = require('../actions')
 
 const chatRooms = (state = [], action) => {
   switch (action.type) {
@@ -9,6 +9,8 @@ const chatRooms = (state = [], action) => {
       else {
         return state
       }
+    case CLEARED_ROOM:
+      return []
     default:
       return state
   }

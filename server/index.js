@@ -22,12 +22,16 @@ io.on('connection', socket => {
   socket.on('sign on', data => {
     if (data.customerID) {
       socket.join(data.customerID)
-      if (data.customerID && !rooms.includes(data.customerID)) {
+      console.log('before filter room', rooms)
+      if (!rooms.includes(data.customerID)) {
         rooms.push(data.customerID)
       }
+      console.log('after filter', rooms)
+      socket.emit('rooms list', rooms)
     }
     else if (data.staffID) {
       socket.emit('rooms list', rooms)
+      console.log('room', rooms)
     }
   })
   socket.on('fetch chat', customerID => {
