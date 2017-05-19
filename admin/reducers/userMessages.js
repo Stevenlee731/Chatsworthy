@@ -1,5 +1,4 @@
 const { MESSAGE_RECEIVED, MESSAGE_LOGGED, MESSAGE_SENT } = require('../actions')
-
 const initialState = []
 
 const userMessages = (state = initialState, action) => {
