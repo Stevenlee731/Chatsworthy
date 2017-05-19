@@ -89,7 +89,8 @@ const MessagesViewer = props => {
       date: moment().format('MMMM Do YYYY, h:mm:ss a'),
       customerID: localStorage.userID,
       client: 'Bankjoy',
-      text: messageInput
+      text: messageInput,
+      clientImg: 'https://media.licdn.com/mpr/mpr/shrink_200_200/AAEAAQAAAAAAAAfJAAAAJGM1NWE4OWM2LTI2NDktNDFhNC05Y2VjLWMxYzM1NjRlYzFmMQ.png'
     }
     store.dispatch(sendMessage(message))
   }

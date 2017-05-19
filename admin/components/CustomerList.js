@@ -19,7 +19,18 @@ const Customer = props => {
     store.dispatch(joinRoom(currentRoom))
     socket.emit('fetch chat', currentRoom)
     socket.on('parsed chat', payload => {
-      store.dispatch(messageReceived(payload))
+      if (Array.isArray(payload)) {
+        store.dispatch(messageReceived(payload))
+      }
+      else {
+        const alertMessage = [{
+          profileImg: payload.clientImg,
+          text: 'Incoming message from ' + payload.client + ' customer'
+        }]
+        const initialMessage = alertMessage.concat(payload)
+        console.log(initialMessage)
+        store.dispatch(messageReceived(initialMessage))
+      }
     })
     return (
       <MessageView chatRoom={ props.room }/>
@@ -30,7 +41,7 @@ const Customer = props => {
       onClick={ handleClick }
       style={avatarStyle}
       primaryText= { props.room }
-      leftAvatar={<Avatar src="https://twibbon.com/content/images/system/default-image.jpg" />}
+      leftAvatar={<Avatar src="https://media.licdn.com/mpr/mpr/shrink_200_200/AAEAAQAAAAAAAAfJAAAAJGM1NWE4OWM2LTI2NDktNDFhNC05Y2VjLWMxYzM1NjRlYzFmMQ.png" />}
       rightIcon={<CommunicationChatBubble />}
       />
   )

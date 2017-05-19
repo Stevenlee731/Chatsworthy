@@ -41,10 +41,11 @@ socket.on('client message', payload => {
   socket.emit('fetch chat', payload.customerID)
   socket.on('parsed chat', payload => {
     if (Array.isArray(payload)) {
+      console.log('is array', payload)
       store.dispatch(messageReceived(payload))
     }
     else {
-      store.dispatch(messageReceived([payload]))
+      console.log('is not array')
     }
   })
 })
