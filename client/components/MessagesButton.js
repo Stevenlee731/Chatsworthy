@@ -10,10 +10,6 @@ const socket = io('/')
 const MessagesButton = props => {
   const handleClick = () => {
     if (props.isChatOpen) {
-      socket.emit('fetch chat', localStorage.userID)
-      socket.on('parsed chat', payload => {
-        store.dispatch(messageReceived(payload))
-      })
       store.dispatch(chatClosed())
     }
     else {

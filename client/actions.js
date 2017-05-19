@@ -20,10 +20,8 @@ const inputChanged = event => ({
 
 function sendMessage(message) {
   return function(dispatch, getState, {socket, appStorage}) {
-    const { userMessages } = getState()
     socket.emit('client message', message)
     dispatch(messageSent(message))
-    appStorage.setItem('user', JSON.stringify(userMessages))
   }
 }
 
