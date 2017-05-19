@@ -6,7 +6,9 @@ const chatRooms = (state = [], action) => {
       if (!state.includes(action.rooms)) {
         return state.concat(action.rooms)
       }
-      break
+      else {
+        return state
+      }
     default:
       return state
   }

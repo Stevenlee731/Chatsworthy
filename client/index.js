@@ -7,6 +7,7 @@ const MuiThemeProvider = require('material-ui/styles/MuiThemeProvider').default
 const injectTapEventPlugin = require('react-tap-event-plugin')
 const io = require('socket.io-client')
 const socket = io('/')
+const {messageReceived} = require('./actions')
 injectTapEventPlugin()
 
 window.store = store
@@ -51,4 +52,19 @@ socket.on('join', () => {
 })
 
 socket.on('message', payload => {
+  console.log('message from support', payload)
+  const oldChats = JSON.parse(localStorage.getItem(payload.customerID)) || []
+
+  const newChat = {
+    date: payload.date,
+    text: payload.text,
+    customerID: payload.customerID,
+    staffID: payload.staffID,
+    profileImg: payload.profileImg,
+    name: payload.name
+  }
+
+  oldChats.push(newChat)
+  // store.dispatch(messageReceived(oldChats))
+  localStorage.setItem(payload.customerID, JSON.stringify(oldChats))
 })

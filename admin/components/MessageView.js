@@ -2,10 +2,18 @@ const React = require('react')
 const MuiThemeProvider = require('material-ui/styles/MuiThemeProvider').default
 const Paper = require('material-ui/Paper/Paper').default
 const Avatar = require('material-ui/Avatar').default
+const TextField = require('material-ui/TextField').default
 const { Comment } = require('semantic-ui-react')
+const Card = require('material-ui/Card/Card').default
+const CardActions = require('material-ui/Card/CardActions').default
+const FlatButton = require('material-ui/FlatButton').default
+const moment = require('moment')
+const store = require('../store')
+const { INPUT_CHANGED, sendMessage } = require('../actions')
 
 const style = {
-  Width: '100%',
+  width: '100%',
+  height: '100vh',
   paddingLeft: 300
 }
 
@@ -27,38 +35,72 @@ const Message = props => {
 }
 
 const Messages = props => {
-  const { userMessages } = props
+  const { userMessages, currentRoom, messageInput, staffLogin } = props
+  const handleChange = event => {
+    store.dispatch({
+      type: INPUT_CHANGED,
+      text: event.target.value
+    })
+  }
+  const handleSubmit = event => {
+    event.preventDefault()
+    const message = {
+      date: moment().format('MMMM Do YYYY, h:mm:ss a'),
+      customerID: currentRoom,
+      text: messageInput,
+      staffID: staffLogin.staffID,
+      profileImg: staffLogin.profileImg,
+      name: staffLogin.name
+    }
+    store.dispatch(sendMessage(message))
+  }
   return (
-    <Comment.Group style={{overflowY: 'auto', paddingLeft: '50px', paddingRight: '50px', paddingTop: '50px'}}>
-      { userMessages.map((message, i) => {
-        return <Message key={ i } customerID={message.customerID} date={ message.date } text={ message.text } />
-      })
-      }
-    </Comment.Group>
+  <div style={{width: '100%', position: 'relative'}}>
+    <Card style={{width: '100%', height: '100vh'}}>
+      <Comment.Group style={{height: '86vh', overflowY: 'auto', paddingLeft: '50px', paddingTop: '50px', paddingBottom: '50px'}}>
+        { userMessages.map((message, i) => {
+          return <Message key={ i } customerID={message.customerID} date={ message.date } text={ message.text } />
+        })
+        }
+      </Comment.Group>
+    </Card>
+    <form onSubmit={ handleSubmit } style={{ backgroundColor: 'white', zIndex: '1', borderTop: '1px solid #E0E0E0', borderBottom: '1px solid #E0E0E0', position: 'absolute', bottom: 0, display: 'inline-block', width: '100%', textAlign: 'right' }}>
+      <TextField onChange={ handleChange } style={{paddingLeft: '30px', paddingRight: '30px'}}
+        hintText="Reply"
+        fullWidth={true}
+      />
+    <FlatButton style={{marginRight: '10%'}} type='submit' label="Send" />
+    </form>
+  </div>
   )
 }
 
 const SwitchView = props => {
-  const { currentRoom, userMessages } = props
+  const { currentRoom, userMessages, messageInput, staffLogin } = props
   if (currentRoom === 'main') {
     return (
       <div style={{margin: 'auto', width: '300px', height: '100%', position: 'relative', paddingLeft: '50px', paddingRight: '50px', paddingTop: '50px'}}>
         <div style={{position: 'absolute', top: '50%', height: '160px', marginTop: '-80px'}}>
           <div style={{margin: 'auto', width: '100px'}}>
             <Avatar
-            src="http://www.material-ui.com/images/ok-128.jpg"
+            src={staffLogin.profileImg}
             size={100}
             />
           </div>
-          <h1>Welcome back!</h1>
+          <h1 style={{textAlign: 'center'}}>Welcome back {staffLogin.name}!</h1>
         </div>
       </div>
     )
   }
-  return <Messages userMessages={ userMessages } currentRoom={ currentRoom }/>
+  return (
+    <div style={{height: '100vh', width: '100%'}}>
+      <Messages style={{position: 'absolute'}} staffLogin={staffLogin} messageInput={ messageInput } userMessages={ userMessages } currentRoom={ currentRoom }/>
+    </div>
+  )
 }
 
 const MessageView = props => {
+  console.log('messageview', props)
   return (
     <MuiThemeProvider>
       <Paper style={style} >
