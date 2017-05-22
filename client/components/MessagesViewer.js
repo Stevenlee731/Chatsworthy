@@ -13,11 +13,13 @@ const { Grid, Image } = require('semantic-ui-react')
 const Divider = require('material-ui/Divider/Divider').default
 
 const style = {
+  zIndex: '115',
   maxWidth: '375px',
   minWidth: '375px',
   height: '100vh',
   right: 0,
-  position: 'absolute',
+  bottom: 0,
+  position: 'fixed',
   borderRight: '1px solid #E0E0E0'
 }
 
@@ -89,7 +91,8 @@ const MessagesViewer = props => {
       date: moment().format('MMMM Do YYYY, h:mm:ss a'),
       customerID: localStorage.userID,
       client: 'Bankjoy',
-      text: messageInput
+      text: messageInput,
+      clientImg: 'https://media.licdn.com/mpr/mpr/shrink_200_200/AAEAAQAAAAAAAAfJAAAAJGM1NWE4OWM2LTI2NDktNDFhNC05Y2VjLWMxYzM1NjRlYzFmMQ.png'
     }
     store.dispatch(sendMessage(message))
   }

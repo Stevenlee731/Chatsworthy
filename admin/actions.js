@@ -1,4 +1,5 @@
 const ADDED_ROOM = 'ADDED_ROOM'
+const CLEARED_ROOM = 'CLEARED_ROOM'
 const LEAVE_ROOM = 'LEAVE_ROOM'
 const RESET_LOGIN = 'RESET_LOGIN'
 const roomJoined = room => ({
@@ -51,6 +52,7 @@ const messageReceived = payload => ({
 })
 
 const Actions = {
+  CLEARED_ROOM,
   RESET_LOGIN,
   staffLogged,
   STAFF_LOGIN,

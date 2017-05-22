@@ -39,7 +39,7 @@ const StaffMessage = props => {
 const ClientMessage = props => {
   return (
     <Comment>
-      <Comment.Avatar as='a' src='https://twibbon.com/content/images/system/default-image.jpg' />
+      <Comment.Avatar as='a' src={props.clientImg} />
       <Comment.Content>
         <Comment.Author>{ props.customerID }</Comment.Author>
         <Comment.Metadata>
@@ -104,7 +104,7 @@ const Messages = props => {
             return <StaffMessage key={ i } profileImg={message.profileImg} staffID={message.staffID} name={message.name} customerID={message.customerID} date={ message.date } text={ message.text } />
           }
           else {
-            return <ClientMessage key={ i } customerID={message.customerID} date={ message.date } text={ message.text } />
+            return <ClientMessage key={ i } clientImg={message.clientImg} customerID={message.customerID} date={ message.date } text={ message.text } />
           }
         })
       }
