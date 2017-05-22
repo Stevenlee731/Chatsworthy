@@ -13,11 +13,13 @@ const { Grid, Image } = require('semantic-ui-react')
 const Divider = require('material-ui/Divider/Divider').default
 
 const style = {
+  zIndex: '115',
   maxWidth: '375px',
   minWidth: '375px',
   height: '100vh',
   right: 0,
-  position: 'absolute',
+  bottom: 0,
+  position: 'fixed',
   borderRight: '1px solid #E0E0E0'
 }
 
