@@ -10,10 +10,8 @@ const app = express()
 const server = http.createServer(app)
 const io = socketIO(server)
 const path = require('path')
-const bodyParser = require('body-parser')
 
 app.use(express.static(path.join(__dirname, 'public')))
-app.use(bodyParser.json())
 
 const rooms = []
 
