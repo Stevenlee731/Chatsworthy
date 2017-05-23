@@ -85,8 +85,6 @@ io.on('connection', socket => {
   })
 })
 
-const port = process.env.PORT || 3000
-
-server.listen(port, function() {
-  console.log('listening on *:', port)
+server.listen(4000, function() {
+  console.log('listening on *:', 4000)
 })
