@@ -68,3 +68,7 @@
 .message-content {
   padding-bottom: 1px !important;
 }
+
+#footer {
+  z-index: -1;
+}
