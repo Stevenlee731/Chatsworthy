@@ -71,4 +71,10 @@
 
 #footer {
   z-index: -1;
+  padding-top: 25px !important;
+  margin-top: 25px;
+}
+
+#header {
+  margin-top: 25px;
 }
